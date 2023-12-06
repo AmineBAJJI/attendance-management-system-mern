@@ -4,8 +4,9 @@
   "description": "Your app description",
   "main": "index.js",
   "scripts": {
-    "start": "node idnex.js", 
-    "dev": "nodemon index.js"  
+    "test": "echo \"No tests currently implemented\"",
+    "start": "node index.js",
+    "dev": "nodemon index.js"
   },
   "dependencies": {
     "bcrypt": "^5.1.1",
