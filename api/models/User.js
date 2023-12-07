@@ -22,16 +22,13 @@ const userSchema = new mongoose.Schema({
   },
 });
 
-userSchema.post("save", function (doc, next) {
-  console.log("new user was created & saved", doc);
+// fire a function before doc saved to db
+userSchema.pre("save", async function (next) {
+  const salt = await bcrypt.genSalt();
+  this.password = await bcrypt.hash(this.password, salt);
   next();
 });
 
-userSchema.pre("save", function (next) {
-  console.log("user about to be created & saved", this);
-  next();
-});
-
-const User = mongoose.model("users", userSchema);
+const User = mongoose.model("user", userSchema);
 
 module.exports = User;

@@ -5,6 +5,7 @@ const port = process.env.PORT || 8080;
 const app = express();
 const connectDB = require("./config/db");
 const authRoutes = require("./routes/authRoutes");
+const cookieParser = require("cookie-parser");
 
 //mongodb connection
 connectDB();
@@ -12,12 +13,12 @@ connectDB();
 //middlewares
 app.use(express.json());
 app.use(morgan("dev"));
+app.use(authRoutes);
+app.use(cookieParser());
 
 app.get("/", function (req, res) {
   res.send("hello");
 });
-
-app.use(authRoutes);
 
 app.listen(port, () => {
   console.log(
