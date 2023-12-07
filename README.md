@@ -1,1 +1,1 @@
-**Use Case Digram**
+*Use Case Diagram*
