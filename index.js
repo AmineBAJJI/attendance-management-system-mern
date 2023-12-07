@@ -4,6 +4,7 @@ const dotenv = require("dotenv").config();
 const port = process.env.PORT || 8080;
 const app = express();
 const connectDB = require("./config/db");
+const authRoutes = require("./routes/authRoutes");
 
 //mongodb connection
 connectDB();
@@ -15,6 +16,8 @@ app.use(morgan("dev"));
 app.get("/", function (req, res) {
   res.send("hello");
 });
+
+app.use(authRoutes);
 
 app.listen(port, () => {
   console.log(
