@@ -1,6 +1,11 @@
-node_modules
-build
-npm-debug.log
-.nyc
-.env
+node_modules/
+frontend/node_modules/
+*.zip
 .DS_Store
+../DS_Store
+.idea
+notes.md
+
+.env.local
+
+*.pdf
