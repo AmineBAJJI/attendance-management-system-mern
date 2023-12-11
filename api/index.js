@@ -12,11 +12,19 @@ const cors = require("cors");
 connectDB();
 
 //middlewares
+const corsOptions = {
+  origin: '*',
+  methods: 'GET,HEAD,PUT,PATCH,POST,DELETE',
+  credentials: true,
+  optionsSuccessStatus: 204,
+};
+
+app.use(cors(corsOptions));  // Use cors middleware
 app.use(express.json());
 app.use(morgan("dev"));
 app.use(authRoutes);
 app.use(cookieParser());
-app.use(cors());
+
 app.get("/", function (req, res) {
   res.send("hello");
 });
