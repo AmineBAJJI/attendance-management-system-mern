@@ -8,6 +8,13 @@ const authRoutes = require("./routes/authRoutes");
 const cookieParser = require("cookie-parser");
 const { authMiddleware } = require("./middlewares/authMiddleware");
 const cors = require("cors");
+const corsOptions = {
+  origin: "*",
+  methods: "GET,HEAD,PUT,PATCH,POST,DELETE",
+  credentials: true,
+  optionsSuccessStatus: 204,
+};
+
 //mongodb connection
 connectDB();
 
@@ -16,7 +23,8 @@ app.use(express.json());
 app.use(morgan("dev"));
 app.use(authRoutes);
 app.use(cookieParser());
-app.use(cors());
+app.use(cors(corsOptions));
+
 app.get("/", function (req, res) {
   res.send("hello");
 });
