@@ -8,22 +8,24 @@ const authRoutes = require("./routes/authRoutes");
 const cookieParser = require("cookie-parser");
 const { authMiddleware } = require("./middlewares/authMiddleware");
 const cors = require("cors");
-//mongodb connection
-connectDB();
-
-//middlewares
 const corsOptions = {
-  origin: '*',
-  methods: 'GET,HEAD,PUT,PATCH,POST,DELETE',
+  origin: "*",
+  methods: "GET,HEAD,PUT,PATCH,POST,DELETE",
   credentials: true,
   optionsSuccessStatus: 204,
 };
+
+//mongodb connection
+connectDB();
+
+
 
 app.use(cors(corsOptions));  // Use cors middleware
 app.use(express.json());
 app.use(morgan("dev"));
 app.use(authRoutes);
 app.use(cookieParser());
+
 
 app.get("/", function (req, res) {
   res.send("hello");
