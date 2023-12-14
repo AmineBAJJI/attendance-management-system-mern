@@ -7,15 +7,19 @@ const connectDB = require("./config/db");
 const authRoutes = require("./routes/authRoutes");
 const cookieParser = require("cookie-parser");
 const { authMiddleware } = require("./middlewares/authMiddleware");
+const cors = require("cors");
+
 
 //mongodb connection
 connectDB();
 
-//middlewares
+
+ // Use cors middleware
 app.use(express.json());
 app.use(morgan("dev"));
 app.use(authRoutes);
 app.use(cookieParser());
+
 
 app.get("/", function (req, res) {
   res.send("hello");
