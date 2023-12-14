@@ -25,6 +25,16 @@ module.exports.getStudentById = async (req, res) => {
   }
 };
 
+module.exports.getStudentsByClass = async (req, res) => {
+  const { class: className } = req.params;
+  try {
+    const students = await Student.find({ class: className });
+    res.json(students);
+  } catch (error) {
+    res.status(500).json({ error: error.message });
+  }
+};
+
 // Create a new student
 module.exports.createStudent = async (req, res) => {
   const { lastName, firstName, cne, apogee, className, healthInfo } = req.body;
