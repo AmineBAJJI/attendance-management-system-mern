@@ -8,9 +8,10 @@ router.use(requireAuth);
 router.get("/sessions/date/:date", sessionController.getSubjectsByDate);
 
 router.get(
-  "/sessions/professor/:professorId",
-  sessionController.getSessionsByProfessorId
+  "sessions/date/:date/subject/:subject",
+  sessionController.getSessionByDateAndSubject
 );
+
 router.post("/sessions/add", sessionController.addNewSession);
 
 router.get(

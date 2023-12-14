@@ -135,7 +135,7 @@ module.exports.getSessionByDateAndSubject = async (req, res) => {
     const decodedToken = jwt.verify(token, process.env.JWT_SECRET);
     console.log("Decoded Token:", decodedToken);
 
-    const { _id: userId, role } = decodedToken;
+    const { id: userId, role } = decodedToken;
 
     if (role !== "professor") {
       return res.status(403).json({
