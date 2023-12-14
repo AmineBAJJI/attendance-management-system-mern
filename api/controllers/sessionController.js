@@ -133,3 +133,50 @@ module.exports.getSessionsByProfessorId = async (req, res) => {
     res.status(500).json({ message: error.message });
   }
 };
+
+getSessionDetails: async (sessionId) => {
+  return Session.findById(sessionId);
+},
+module.exports.getStudentsForSession = async (req, res) => {
+    const { sessionId } = req.params;
+
+    try {
+      const token = req.cookies.jwt;
+      const decodedToken = jwt.verify(token, process.env.JWT_SECRET);
+      const { _id: userId, role } = decodedToken;
+
+      if (role !== "professor") {
+        return res.status(403).json({
+          message: "Vous n'avez pas les droits nécessaires.",
+        });
+      }
+
+      // Fetch session details
+      const session = await this.getSessionDetails(sessionId);
+      if (!session) {
+        return res.status(404).json({ message: "Session not found." });
+      }
+
+      // Fetch students associated with the session and the responsible's ID
+      const students = await this.getStudentsForSessionByProfessor(session.class, userId);
+      
+      res.json(students);
+    } catch (error) {
+      console.error("Error:", error);
+
+      if (error.name === "TokenExpiredError") {
+        return res.status(401).json({ message: "Token expired" });
+      }
+
+      res.status(401).json({ message: "Token invalide" });
+    }
+  },
+
+  getStudentsForSessionByProfessor: async (classId, professorId) => {
+    // Fetch students associated with the session and the responsible's ID
+    return Student.find({
+      class: classId,
+      professor_id: professorId,
+      // Add other criteria as needed
+    });
+  };
