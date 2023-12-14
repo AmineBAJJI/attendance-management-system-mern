@@ -124,59 +124,45 @@ module.exports.addNewSession = async (req, res) => {
   }
 };
 
-module.exports.getSessionsByProfessorId = async (req, res) => {
-  const { professorId } = req.params;
+module.exports.getSessionByDateAndSubject = async (req, res) => {
+  const { date, subject } = req.params;
+  const decodedSubject = decodeURIComponent(subject);
+
   try {
-    const sessions = await Session.find({ professor_id: professorId });
+    const token = req.cookies.jwt;
+    console.log("Token:", token);
+
+    const decodedToken = jwt.verify(token, process.env.JWT_SECRET);
+    console.log("Decoded Token:", decodedToken);
+
+    const { _id: userId, role } = decodedToken;
+
+    if (role !== "professor") {
+      return res.status(403).json({
+        message: "Vous n'avez pas les droits nécessaires.",
+      });
+    }
+
+    const sessions = await Session.find({
+      date: new Date(date),
+      subject: decodedSubject,
+      professor_id: userId,
+    });
+
+    if (sessions.length === 0) {
+      return res
+        .status(404)
+        .json({ message: "Pas de séances dans cette date pour vous." });
+    }
+
     res.json(sessions);
   } catch (error) {
-    res.status(500).json({ message: error.message });
+    console.error("Error:", error);
+
+    if (error.name === "TokenExpiredError") {
+      return res.status(401).json({ message: "Token expired" });
+    }
+
+    res.status(401).json({ message: "Token invalide" });
   }
 };
-
-getSessionDetails: async (sessionId) => {
-  return Session.findById(sessionId);
-},
-module.exports.getStudentsForSession = async (req, res) => {
-    const { sessionId } = req.params;
-
-    try {
-      const token = req.cookies.jwt;
-      const decodedToken = jwt.verify(token, process.env.JWT_SECRET);
-      const { _id: userId, role } = decodedToken;
-
-      if (role !== "professor") {
-        return res.status(403).json({
-          message: "Vous n'avez pas les droits nécessaires.",
-        });
-      }
-
-      // Fetch session details
-      const session = await this.getSessionDetails(sessionId);
-      if (!session) {
-        return res.status(404).json({ message: "Session not found." });
-      }
-
-      // Fetch students associated with the session and the responsible's ID
-      const students = await this.getStudentsForSessionByProfessor(session.class, userId);
-      
-      res.json(students);
-    } catch (error) {
-      console.error("Error:", error);
-
-      if (error.name === "TokenExpiredError") {
-        return res.status(401).json({ message: "Token expired" });
-      }
-
-      res.status(401).json({ message: "Token invalide" });
-    }
-  },
-
-  getStudentsForSessionByProfessor: async (classId, professorId) => {
-    // Fetch students associated with the session and the responsible's ID
-    return Student.find({
-      class: classId,
-      professor_id: professorId,
-      // Add other criteria as needed
-    });
-  };
