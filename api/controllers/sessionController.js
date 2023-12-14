@@ -2,11 +2,12 @@ const Session = require("../models/Session");
 const jwt = require("jsonwebtoken");
 
 module.exports.getSubjectsByDate = async (req, res) => {
-  const { date } = req.params;
+  const { date, class: className } = req.params;
 
   try {
     const sessions = await Session.find({
       date: new Date(date),
+      class: className,
     });
     if (sessions.length === 0) {
       return res
@@ -18,11 +19,6 @@ module.exports.getSubjectsByDate = async (req, res) => {
   } catch (error) {
     res.status(500).json({ message: error.message });
   }
-};
-
-module.exports.testRoute = async (req, res) => {
-  console.log("Reached testRoute controller");
-  res.status(200).json({ message: "Test route works!" });
 };
 
 module.exports.getSessionByDateAndSubject = async (req, res) => {
@@ -47,6 +43,7 @@ module.exports.getSessionByDateAndSubject = async (req, res) => {
       date: new Date(date),
       subject: decodedSubject,
       professor_id: userId,
+      class: className,
     });
     console.log(new Date(date));
 
