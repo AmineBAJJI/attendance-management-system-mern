@@ -18,13 +18,13 @@ const userSchema = new mongoose.Schema({
   },
   role: {
     type: String,
-    enum: ["student", "professor", "secretary"],
+    enums: ["admin", "student", "professor", "secretary"],
   },
 });
 
 // fire a function before doc saved to db
 userSchema.pre("save", async function (next) {
-  const salt = await bcrypt.genSalt();
+  const salt = await bcrypt.genSalt(10);
   this.password = await bcrypt.hash(this.password, salt);
   next();
 });

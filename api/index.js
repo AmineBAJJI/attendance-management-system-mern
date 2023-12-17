@@ -10,16 +10,20 @@ const cookieParser = require("cookie-parser");
 const { authMiddleware } = require("./middlewares/authMiddleware");
 const cors = require("cors");
 
+
+
+
 //mongodb connection
 connectDB();
 
-//middlewares
+
+ // Use cors middleware
 app.use(express.json());
 app.use(morgan("dev"));
 app.use(cookieParser());
 app.use(authRoutes);
 app.use(studentRoutes);
-app.use(cors());
+
 
 app.get("/", function (req, res) {
   res.send("hello");
