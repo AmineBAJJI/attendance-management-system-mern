@@ -17,9 +17,4 @@ router.get(
 
 router.post("/sessions/add", sessionController.addNewSession);
 
-router.get(
-  "/sessions/date/:date/subject/:subject",
-  sessionController.getSessionByDateAndSubject
-);
-
 module.exports = router;

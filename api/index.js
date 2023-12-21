@@ -15,8 +15,8 @@ connectDB();
 app.use(express.json());
 app.use(morgan("dev"));
 app.use(cookieParser());
-app.use(authRoutes);
-app.use(sessionRoutes);
+app.use("/api", authRoutes);
+app.use("/api", sessionRoutes);
 
 app.get("/", function (req, res) {
   res.send("hello");
