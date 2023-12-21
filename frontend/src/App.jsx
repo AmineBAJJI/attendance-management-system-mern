@@ -10,14 +10,19 @@ import Products from './pages/Products'
 import Product from './pages/Product'
 import CreateProduct from './pages/CreateProduct'
 import {useSelector} from 'react-redux'
+import {ToastContainer} from 'react-toastify';
+import PrivateRoute from './components/PrivateRoute';
+import 'react-toastify/dist/ReactToastify.css'
 
 
 function App() {
-  const user = useSelector(state => state.user.currentUser);
+
   return (
     <BrowserRouter>
+    <ToastContainer />
      <Routes>
-      <Route path='/login' element={ user ? <Navigate to='/' /> :<Login/>}/>
+      <Route path='/login' element={ <Login/>}/>
+      <Route path='' element={<PrivateRoute/>}>
       <Route path="/" element={<Layout />} >
         <Route index element={<Home />} />
         <Route path="/users" element={<Users />} />
@@ -26,6 +31,7 @@ function App() {
         {/* <Route path="/products" element={<Products />} />
         <Route path="/product/:productId" element={<Product />} />
         <Route path="/newproduct" element={<CreateProduct />} /> */}
+      </Route>
       </Route>
       </Routes>
     </BrowserRouter>
