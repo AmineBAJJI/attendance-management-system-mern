@@ -61,7 +61,6 @@ module.exports.addNewSession = async (req, res) => {
   } = req.body;
 
   try {
-    // Check for overlapping sessions
     const overlappingSessions = await Session.find({
       date: new Date(date),
       room,
