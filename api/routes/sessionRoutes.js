@@ -5,15 +5,7 @@ const { requireAuth } = require("../middlewares/authMiddleware");
 
 router.use(requireAuth);
 
-router.get(
-  "/sessions/date/:date/class/:class",
-  sessionController.getSubjectsByDate
-);
-
-router.get(
-  "sessions/date/:date/subject/:subject",
-  sessionController.getSessionByDateAndSubject
-);
+router.get("/sessions/date/:date", sessionController.getSessionsByDate);
 
 router.post("/sessions/add", sessionController.addNewSession);
 

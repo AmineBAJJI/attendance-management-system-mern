@@ -1,50 +1,13 @@
 const Session = require("../models/Session");
+const Professor = require("../models/Professor");
 const jwt = require("jsonwebtoken");
 
-module.exports.getSubjectsByDate = async (req, res) => {
-  const { date, class: className } = req.params;
-
-  const decodedSubject = decodeURIComponent(subject);
+module.exports.getSessionsByDate = async (req, res) => {
+  const { date } = req.params;
 
   try {
     const token = req.cookies.jwt;
-    console.log("Token:", token);
     const decodedToken = jwt.verify(token, process.env.JWT_SECRET);
-    console.log("Decoded Token:", decodedToken);
-
-    const { id: userId, role } = decodedToken;
-
-    if (role !== "professor") {
-      return res.status(403).json({
-        message: "Vous n'avez pas les droits nécessaires.",
-      });
-    }
-    const sessions = await Session.find({
-      date: new Date(date),
-      class: className,
-      professor_id: userId,
-    });
-    if (sessions.length === 0) {
-      return res
-        .status(404)
-        .json({ message: "Pas de séances dans cette date pour vous." });
-    }
-    const subjects = [...new Set(sessions.map((session) => session.subject))];
-    res.json({ subjects });
-  } catch (error) {
-    res.status(500).json({ message: error.message });
-  }
-};
-
-module.exports.getSessionByDateAndSubject = async (req, res) => {
-  const { date, subject } = req.params;
-  const decodedSubject = decodeURIComponent(subject);
-
-  try {
-    const token = req.cookies.jwt;
-    console.log("Token:", token);
-    const decodedToken = jwt.verify(token, process.env.JWT_SECRET);
-    console.log("Decoded Token:", decodedToken);
 
     const { id: userId, role } = decodedToken;
 
@@ -54,7 +17,6 @@ module.exports.getSessionByDateAndSubject = async (req, res) => {
       });
     }
 
-    // Fetch the professor from the database
     const professor = await Professor.findOne({ user_id: userId });
 
     if (!professor) {
@@ -62,17 +24,12 @@ module.exports.getSessionByDateAndSubject = async (req, res) => {
         message: "Professor not found in the database.",
       });
     }
-
     const professorId = professor._id;
 
     const sessions = await Session.find({
       date: new Date(date),
-      subject: decodedSubject,
       professor_id: professorId,
-      class: className, // Make sure className is defined
     });
-
-    console.log(new Date(date));
 
     if (sessions.length === 0) {
       return res.status(404).json({
@@ -82,7 +39,7 @@ module.exports.getSessionByDateAndSubject = async (req, res) => {
 
     res.json(sessions);
   } catch (error) {
-    console.error("Error:", error); // Add this line to log any errors
+    console.error("Error:", error);
 
     if (error.name === "TokenExpiredError") {
       return res.status(401).json({ message: "Token expired" });
