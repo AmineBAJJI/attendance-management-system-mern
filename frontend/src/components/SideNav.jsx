@@ -8,7 +8,7 @@ import { logout } from '../features/auth/authSlice';
 import { useDispatch } from 'react-redux';
 import axios from 'axios';
 
-const liStyle = 'mb-1 flex items-center hover:bg-gray-200 rounded-md px-2 py-1 cursor-pointer';
+const liStyle = 'mb-1 flex items-center hover:bg-gray-300 rounded-md px-2 py-2 mt-2 cursor-pointer';
 
 export default function SideNav() {
   const dispatch = useDispatch();
@@ -28,21 +28,21 @@ export default function SideNav() {
   
 
   return (
-    <div className='w-[18%] h-screen p-4 bg-slate-100 shadow-md rounded-r-md sticky top-[50px] '>
+    <div className='w-[18%] h-screen p-4 bg-slate-200 shadow-md rounded-r-md sticky top-[50px] '>
       <div>
-        <h3 className='text-gray-400 font-bold'>tableau de bord</h3>
+        <h3 className='text-gray-400 font-bold'>Tableau De Bord</h3>
         <ul className='py-2 px-5'>
-          <li className={liStyle}>
+          <Link to='/' className={liStyle}>
             <HomeOutlinedIcon className='text-gray-400 mr-2 !important' />
-            <Link to='/'>Accueil</Link>
-          </li>
-          <li className={liStyle}>
+            <p >Accueil</p>
+          </Link>
+          <Link to='/users' className={liStyle}>
             <PersonOutlineIcon className='text-gray-400 mr-2 !important' />
-            <Link to='/users'>Étudiants</Link>
-          </li>
-          <li className={liStyle}>
+            <p >Étudiants</p>
+          </Link>
+          <li onClick={clickHandler} className={liStyle}>
             <FeedbackIcon className='text-gray-400 mr-2 !important' />
-            <div onClick={clickHandler}>Se déconnecter</div>
+            <div >Se déconnecter</div>
           </li>
         </ul>
       </div>

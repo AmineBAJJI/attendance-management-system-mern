@@ -9,6 +9,7 @@ import CreateUser from './pages/CreateUser'
 import Products from './pages/Products'
 import Product from './pages/Product'
 import CreateProduct from './pages/CreateProduct'
+import CreateSession from './pages/CreateSession';
 import {useSelector} from 'react-redux'
 import {ToastContainer} from 'react-toastify';
 import PrivateRoute from './components/PrivateRoute';
@@ -28,6 +29,7 @@ function App() {
         <Route path="/users" element={<Users />} />
         <Route path="/user/:userId" element={<User />} />
         <Route path="/newuser" element={<CreateUser />} />
+        <Route path="/newsession" element={<CreateSession/>} />
         {/* <Route path="/products" element={<Products />} />
         <Route path="/product/:productId" element={<Product />} />
         <Route path="/newproduct" element={<CreateProduct />} /> */}

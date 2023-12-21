@@ -18,14 +18,6 @@ function TopNav() {
          <NotificationsNoneIcon/>
          </Badge>
         </div>
-        <div  className={iconStyle}>
-        <Badge badgeContent={4} color="primary">
-         <LanguageIcon/>
-         </Badge>
-        </div>
-        <div className='cursor-pointer'>
-          <SettingsIcon/>
-        </div>
       </div>
     </div>
   )
