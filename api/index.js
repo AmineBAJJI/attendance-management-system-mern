@@ -5,7 +5,7 @@ const port = process.env.PORT || 8080;
 const app = express();
 const connectDB = require("./config/db");
 const authRoutes = require("./routes/authRoutes");
-
+const sessionRoutes = require("./routes/sessionRoutes");
 const studentRoutes = require("./routes/studentRoutes");
 const cookieParser = require("cookie-parser");
 const { authMiddleware } = require("./middlewares/authMiddleware");
@@ -22,7 +22,7 @@ connectDB();
 app.use(express.json());
 app.use(morgan("dev"));
 app.use(cookieParser());
-app.use("/api", authRoutes);
+app.use(authRoutes);
 app.use("/api", sessionRoutes);
 
 

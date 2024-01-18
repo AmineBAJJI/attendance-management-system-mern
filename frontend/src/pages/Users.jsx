@@ -33,8 +33,8 @@ export default function Users() {
         },
         { field: "email", headerName: "Groupe", width: 100 },
         {
-            field: "status",
-            headerName: "8-10 ",
+            field: "status 1",
+            headerName: "Seance 1",
             width: 100,
             renderCell: (params) => {
                 return (
@@ -43,17 +43,16 @@ export default function Users() {
             },
         },
         {
-            field: "status",
-            headerName: "8-10 ",
+            field: "status 2",
+            headerName: "Seance 2",
             width: 100,
             renderCell: (params) => {
                 return (
-                        
                         <input type="checkbox" className="checkbox checkbox-accent border-gray-400 [--chkfg:white]" />
-
                 );
             },
         },
+     
 
         {
             field: "action",
@@ -92,7 +91,9 @@ export default function Users() {
                     pageSizeOptions={[5, 10]}
 
                 />
+                
             </div>
+            <button className='bg-green-500 hover:bg-green-600 rounded-md px-2 py-1 mr-2 text-white font-semibold ml-[190px] mt-6 w-1/4'>Valider</button>
         </div>
 
     )

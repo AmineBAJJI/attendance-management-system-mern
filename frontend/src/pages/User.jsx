@@ -28,16 +28,19 @@ export default function User() {
                             <p className='text-sm font-thin text-gray-500'>GINF 1 </p>
                         </div>
                     </div>
-                    <h3 className='mt-4 font-semibold text-gray-400'>Accout Details</h3>
+                    <h3 className='mt-4 font-semibold text-gray-400'>les details de l'etudiant</h3>
                     <div className='flex items-center mt-4'>
                         <PersonOutlineOutlinedIcon />
                         <span className='ml-2'>Nabil kachar</span>
                     </div>
                     <div className='flex items-center mt-4'>
+                        <PersonOutlineOutlinedIcon />
+                        <span className='ml-2'>P14366921</span>
+                    </div>
+                    <div className='flex items-center mt-4'>
                         <CalendarTodayOutlinedIcon />
                         <span className='ml-2'>07.02.2003</span>
                     </div>
-                    <h3 className='mt-4 font-semibold text-gray-400'>Contact Details</h3>
                     <div className='flex items-center mt-4'>
                         <PhoneAndroidOutlinedIcon />
                         <span className='ml-2'>+212 770378917</span>
@@ -56,12 +59,12 @@ export default function User() {
                 </div>
                 <div className='w-[60%]'>
                     <div className='flex justify-center items-center gap-8 w-full'>
-                        <Feature data={{ title: 'blablab', amount: 5, change: 5 }} className='w-full' />
-                        <Feature data={{ title: 'blablab', amount: 5, change: 5 }} className='w-full' />
-                        <Feature data={{ title: 'blablab', amount: 5, change: 5 }} className='w-full' />
+                        <Feature data={{ title: 'December', amount: 5}} className='w-full' />
+                        <Feature data={{ title: 'November', amount: 5}} className='w-full' />
+                        <Feature data={{ title: 'October', amount: 5}} className='w-full' />
                     </div>
                     <div className='w-full h-fit'>
-                        <Chart data={UserData} title="User Analytics" grid dataKey="active User" />
+                        <Chart data={UserData} title="les analyses de l'abscence" grid dataKey="active User" />
                     </div>
                 </div>
 
