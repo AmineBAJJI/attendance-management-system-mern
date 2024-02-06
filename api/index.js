@@ -24,6 +24,7 @@ app.use(morgan("dev"));
 app.use(cookieParser());
 app.use(authRoutes);
 app.use("/api", sessionRoutes);
+app.use(studentRoutes);
 
 
 app.get("/", function (req, res) {

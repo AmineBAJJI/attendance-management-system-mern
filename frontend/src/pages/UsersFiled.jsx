@@ -5,13 +5,13 @@ import DeleteOutlineIcon from '@mui/icons-material/DeleteOutline';
 import { Link } from 'react-router-dom';
 
 
-export default function Users() {
+export default function UsersFiled() {
     const [data, setData] = useState(userRows);
     const [filterInfo, setFilterInfo] = useState({
         module: '',
         matiere: '',
         filiere: '',
-        date: ''
+      
     });
     // return true if all filter inputs were selected
     const areFiltersComplete = () => {
@@ -25,11 +25,6 @@ export default function Users() {
             [name]: value
         }));
     };
-
-   
-    const handleValidate = () => {
-        window.location.reload(); // Reload the page
-    }
     const columns = [
         { field: "id", headerName: "ID", width: 100 },
         {
@@ -50,29 +45,8 @@ export default function Users() {
                 );
             },
         },
-        { field: "email", headerName: "Groupe", width: 100 },
-        {
-            field: "status 1",
-            headerName: "Seance 1",
-            width: 100,
-            renderCell: (params) => {
-                return (
-                    <input type="checkbox" className="checkbox checkbox-accent border-gray-400 [--chkfg:white]" />
-                );
-            },
-        },
-        {
-            field: "status 2",
-            headerName: "Seance 2",
-            width: 100,
-            renderCell: (params) => {
-                return (
-                    <input type="checkbox" className="checkbox checkbox-accent border-gray-400 [--chkfg:white]" />
-                );
-            },
-        },
-
-
+        { field: "email", headerName: "Groupe", width: 150 },
+        { field: "abs", headerName: "nbr d'abs", width: 150 },
         {
             field: "action",
             headerName: "Action",
@@ -90,15 +64,11 @@ export default function Users() {
         },
     ];
 
-
     return (
-
         <div className='w-[82%]'>
             <div className='w-[75%] mx-auto mt-8'>
                 <div className=' px-10 pt-8 mt-4 grid grid-cols-2  gap-6'>
-
-
-                    <div>
+                <div>
                         <select
                             name="module"
                             value={filterInfo.module}
@@ -137,18 +107,10 @@ export default function Users() {
                             <option>Ginf3</option>
                         </select>
                     </div>
-                    <div>
-                        <input
-                            type="date"
-                            name="date"
-                            value={filterInfo.date}
-                            onChange={handleFilterChange}
-                            className='p-2 px-5 border-2 border-gray-300 rounded-lg  w-full max-w-xs'
-                        />
-                    </div>
+                    
                 </div>
             </div>
-            {console.log(filterInfo)}
+
             {areFiltersComplete() ?
                 <div>
                     <div className=' w-[66%]  flex items-center justify-center mx-auto mt-12 '>
@@ -167,10 +129,7 @@ export default function Users() {
                         />
 
                     </div>
-                    <button
-                        className='bg-green-500 hover:bg-green-600 rounded-md px-2 py-1 mr-2 text-white font-semibold ml-[190px] mt-6 w-1/4'
-                        onClick={handleValidate}
-                    >Valider</button>
+                    
                 </div>
                 :
                 <div role="alert" className="alert alert-warning w-fit mx-auto mt-20">

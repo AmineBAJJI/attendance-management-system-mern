@@ -14,9 +14,7 @@ function TopNav() {
       </div>
       <div className='flex items-center '>
         <div className={iconStyle}>
-        <Badge badgeContent={4} color="primary">
-         <NotificationsNoneIcon/>
-         </Badge>
+       
         </div>
       </div>
     </div>

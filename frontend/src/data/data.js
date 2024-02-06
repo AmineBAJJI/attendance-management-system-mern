@@ -56,6 +56,7 @@ export const   userRows = [
     email: "Ginf2",
     status: "active",
     transaction: "$140.00",
+    abs:7,
   },
   {
     id: 2,
@@ -63,6 +64,7 @@ export const   userRows = [
     email: "Ginf2",
     status: "active",
     transaction: "$120.00",
+    abs:7,
   },
   {
     id: 3,
@@ -71,6 +73,7 @@ export const   userRows = [
     email: "Ginf2",
     status: "active",
     transaction: "$120.00",
+    abs:7,
   },
   {
     id: 4,
@@ -79,6 +82,7 @@ export const   userRows = [
     email: "Ginf2",
     status: "active",
     transaction: "$120.00",
+    abs:7,
   },
   {
     id: 5,
@@ -87,6 +91,7 @@ export const   userRows = [
     email: "Ginf2",
     status: "active",
     transaction: "$120.00",
+    abs:7,
   },
   {
     id: 6,
@@ -95,6 +100,7 @@ export const   userRows = [
     email: "Ginf2",
     status: "active",
     transaction: "$120.00",
+    abs:7,
   },
   {
     id: 7,
@@ -103,6 +109,7 @@ export const   userRows = [
     email: "Ginf2",
     status: "active",
     transaction: "$120.00",
+    abs:7,
   },
   {
     id: 8,
@@ -111,6 +118,7 @@ export const   userRows = [
     email: "Ginf2",
     status: "active",
     transaction: "$120.00",
+    abs:7,
   },
   {
     id: 9,
@@ -119,13 +127,14 @@ export const   userRows = [
     email: "Ginf2",
     status: "active",
     transaction: "$120.00",
+    abs:7,
   },
   {
     id: 10,
     username: "Jon Snow",
     email: "Ginf2",
     status: "active",
-    transaction: "$120.00",
+   abs:7,
   },
 ];
 export const productData = [

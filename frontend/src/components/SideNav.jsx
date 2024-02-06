@@ -1,10 +1,13 @@
 import React from 'react';
-import HomeOutlinedIcon from '@mui/icons-material/HomeOutlined';
-import PersonOutlineIcon from '@mui/icons-material/PersonOutline';
+import HomeIcon from '@mui/icons-material/Home';
+import PersonIcon from '@mui/icons-material/Person';
 import FeedbackIcon from '@mui/icons-material/Feedback';
 import { Link, useNavigate } from 'react-router-dom';
 import { useLogoutMutation } from '../features/auth/usersApiSlice';
 import { logout } from '../features/auth/authSlice';
+import BarChartIcon from '@mui/icons-material/BarChart';
+import PersonAddIcon from '@mui/icons-material/PersonAdd';
+import CalendarMonthIcon from '@mui/icons-material/CalendarMonth';
 import { useDispatch } from 'react-redux';
 
 
@@ -33,20 +36,24 @@ export default function SideNav() {
         <h3 className='text-gray-400 font-bold'>Tableau De Bord</h3>
         <ul className='py-2 px-5'>
           <Link to='/' className={liStyle}>
-            <HomeOutlinedIcon className='text-gray-400 mr-2 !important' />
+            <HomeIcon className='text-gray-400 mr-2 !important' />
             <p >Accueil</p>
           </Link>
           <Link to='/users' className={liStyle}>
-            <PersonOutlineIcon className='text-gray-400 mr-2 !important' />
+            <PersonIcon className='text-gray-400 mr-2 !important' />
             <p >Étudiants</p>
           </Link>
+          <Link to='/usersfiled' className={liStyle}>
+            <BarChartIcon className='text-gray-400 mr-2 !important' />
+            <p >Suivre l'absence </p>
+          </Link>
           <Link to='/newuser' className={liStyle}>
-            <PersonOutlineIcon className='text-gray-400 mr-2 !important' />
-            <p >Add Student </p>
+            <PersonAddIcon className='text-gray-400 mr-2 !important' />
+            <p >Ajouter un(e) étudiant(e) </p>
           </Link>
           <Link to='/newsession' className={liStyle}>
-            <PersonOutlineIcon className='text-gray-400 mr-2 !important' />
-            <p >Add Session </p>
+            <CalendarMonthIcon className='text-gray-400 mr-2 !important' />
+            <p > Ajouter une session </p>
           </Link>
           <li onClick={clickHandler} className={liStyle}>
             <FeedbackIcon className='text-gray-400 mr-2 !important' />
