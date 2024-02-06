@@ -1,5 +1,5 @@
-const Session = require("../models/Session");
-const Professor = require("../models/Professor");
+const Session = require("../models/sessionModel");
+const Professor = require("../models/professorModel");
 const jwt = require("jsonwebtoken");
 
 module.exports.getSessionsByDate = async (req, res) => {
