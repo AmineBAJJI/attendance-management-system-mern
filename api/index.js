@@ -6,7 +6,7 @@ const app = express();
 const connectDB = require("./config/db");
 const authRoutes = require("./routes/authRoutes");
 const sessionRoutes = require("./routes/sessionRoutes");
-
+const absenceRoutes = require("./routes/absenceRoutes");
 const professorRoutes = require("./routes/professorRoutes");
 const studentRoutes = require("./routes/studentRoutes");
 const cookieParser = require("cookie-parser");
@@ -19,10 +19,11 @@ app.use(express.json());
 app.use(morgan("dev"));
 app.use(cookieParser());
 
-app.use("api/", authRoutes);
+app.use("/api", authRoutes);
 app.use("/api", sessionRoutes);
 app.use("/api", studentRoutes);
 app.use("/api", professorRoutes);
+app.use("/api", absenceRoutes);
 
 app.get("/", function (req, res) {
   res.send("hello");

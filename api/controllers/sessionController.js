@@ -57,7 +57,8 @@ module.exports.addNewSession = async (req, res) => {
     start_time,
     end_time,
     room,
-    subject,
+    module,
+    element,
   } = req.body;
 
   try {
@@ -93,10 +94,11 @@ module.exports.addNewSession = async (req, res) => {
       professor_id,
       class: className,
       date: new Date(date),
+      room,
       start_time,
       end_time,
-      room,
-      subject,
+      module,
+      element,
     });
     res.json(newSession);
   } catch (error) {

@@ -1,12 +1,11 @@
 const mongoose = require("mongoose");
 
 const sessionSchema = new mongoose.Schema({
-  user: {
-    type: mongoose.Schema.Types.ObjectId,
-    ref: "User",
+  module: {
+    type: String,
     required: true,
   },
-  subject: {
+  element: {
     type: String,
     required: true,
   },
