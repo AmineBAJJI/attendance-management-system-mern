@@ -121,7 +121,12 @@ async function getAbsenceByClass(req, res) {
       {
         $match: {
           "student_info.class": className,
-          "student_info._id": { $type: "objectId" }, // Add this line for ObjectId comparison
+          student_id: {
+            $convert: {
+              input: "$student_id",
+              to: "objectId",
+            },
+          },
         },
       },
       {
