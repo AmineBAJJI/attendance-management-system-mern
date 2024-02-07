@@ -23,7 +23,7 @@ app.use(express.json());
 app.use(morgan("dev"));
 app.use(cookieParser());
 app.use(authRoutes);
-app.use("/api", sessionRoutes);
+app.use(sessionRoutes);
 app.use(studentRoutes);
 
 

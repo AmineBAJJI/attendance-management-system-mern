@@ -7,6 +7,6 @@ router.use(requireAuth);
 
 router.get("/sessions/date/:date", sessionController.getSessionsByDate);
 
-router.post("/sessions/add", sessionController.addNewSession);
+router.post("/api/sessions/add", sessionController.addNewSession);
 
 module.exports = router;

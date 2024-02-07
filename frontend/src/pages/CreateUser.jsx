@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import api from '../api/students';
-import {toast} from 'react-toastify'
+import { toast } from 'react-toastify'
 
 
 export default function CreateUser() {
@@ -20,15 +20,17 @@ export default function CreateUser() {
 
         try {
             const res = await api.post('/students', studentData);
-            console.log('Student added:'); 
+            console.log('Student added:');
             toast.success("L'étudiant(e) a été ajouté avec succès.");
 
             setStudentData({
-              lastName: '',
-              firstName: '',
-              cne: '',
-              apogee: '',
-              className: 'GINF1',
+                lastName: '',
+                firstName: '',
+                cne: '',
+                apogee: '',
+                className: 'GINF1',
+                hasChronicDisease: false,
+                hasDisability: false
             });
         } catch (err) {
             console.error('Error adding student:', err);
@@ -45,12 +47,12 @@ export default function CreateUser() {
     };
 
     return (
-      
+
         <div className='p-8 w-[82%]'>
             <h1 className='text-3xl font-bold'>Ajouter un(e) étudiant(e)</h1>
             <form onSubmit={handleSubmit} className='grid grid-cols-2 gap-2 mt-5'>
                 <div>
-                  {console.log(studentData)}
+                    {console.log(studentData)}
                     <label htmlFor="lastName" className='text-gray-400 font-semibold mt-2'>Nom</label><br />
                     <input
                         type="text"
@@ -117,12 +119,40 @@ export default function CreateUser() {
                         <option value="GINF3">GINF 3</option>
                     </select>
                 </div>
+                <div>
+                    <label htmlFor="hasChronicDisease" className={labelStyle}>A-t-il une maladie chronique ?</label><br />
+                    <select
+                        id="hasChronicDisease"
+                        name="hasChronicDisease"
+                        value={studentData.hasChronicDisease}
+                        onChange={handleChange}
+                        required
+                        className={inputStyle}
+                    >
+                        <option value={false}>Non </option>
+                        <option value={true}>Oui</option>
+                    </select>
+                </div>
+                <div>
+                    <label htmlFor="hasDisability" className={labelStyle}>A-t-il un handicap ?</label><br />
+                    <select
+                        id="hasDisability"
+                        name="hasDisability"
+                        value={studentData.hasDisability}
+                        onChange={handleChange}
+                        required
+                        className={inputStyle}
+                    >
+                        <option value={false}>Non </option>
+                        <option value={true}>Oui</option>
+                    </select>
+                </div>
                 <div></div>
                 <button type="submit" className='bg-blue-700 hover:bg-blue-800 w-[200px] text-white font-semibold mt-4 p-1 text-center rounded-md'>
                     Ajouter
                 </button>
             </form>
-         
+
         </div>
     );
 }
