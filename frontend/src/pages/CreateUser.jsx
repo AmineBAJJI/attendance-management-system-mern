@@ -30,13 +30,13 @@ export default function CreateUser() {
                 first_name: '',
                 cne: '',
                 apogee: '',
-                className: 'GINF1',
+                class_name: 'GINF1',
                 has_chronic_cisease: false,
                 has_disability: false
             });
         } catch (err) {
             console.error('Error adding student:', err);
-            // Handle error, show error message, etc.
+            
         }
     };
 
