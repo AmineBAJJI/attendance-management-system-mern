@@ -26,11 +26,32 @@ module.exports.getStudentById = async (req, res) => {
 };
 
 module.exports.getStudentsByClass = async (req, res) => {
-  const { class: className } = req.params;
+  const { class: className, element } = req.params;
+
   try {
+    // Find students with the specified class name
     const students = await Student.find({ class: className });
-    res.json(students);
+
+    // Iterate through each student and calculate the number of absences
+    const studentsWithAbsences = await Promise.all(
+      students.map(async (student) => {
+        const numberOfAbsences = await Absence.countDocuments({
+          student_id: student._id,
+          element,
+        });
+
+        // Add the calculated number of absences to the student object
+        return {
+          ...student.toObject(),
+          number_element: numberOfAbsences,
+        };
+      })
+    );
+
+    // Send the result as a JSON response
+    res.json(studentsWithAbsences);
   } catch (error) {
+    // Handle any errors and send a 500 status with an error message
     res.status(500).json({ error: error.message });
   }
 };
