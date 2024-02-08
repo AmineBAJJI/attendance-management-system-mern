@@ -107,16 +107,25 @@ module.exports.getStudentsByClassAndElement = async (req, res) => {
 
 // Create a new student
 module.exports.createStudent = async (req, res) => {
-  const { lastName, firstName, cne, apogee, className, healthInfo } = req.body;
+  const {
+    last_name,
+    first_name,
+    cne,
+    apogee,
+    class_name,
+    has_chronic_cisease,
+    has_disability,
+  } = req.body;
 
   try {
     const newStudent = new Student({
-      lastName,
-      firstName,
+      last_name,
+      first_name,
       cne,
       apogee,
-      className,
-      healthInfo,
+      class: class_name,
+      has_chronic_cisease,
+      has_disability,
     });
 
     await newStudent.save();
