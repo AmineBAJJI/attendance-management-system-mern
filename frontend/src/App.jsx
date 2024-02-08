@@ -8,6 +8,7 @@ import User from './pages/User'
 import CreateUser from './pages/CreateUser'
 
 import CreateSession from './pages/CreateSession';
+import JusifieAbs from './pages/JustifieAbs';
 
 import UsersFiled from './pages/UsersFiled';
 import {ToastContainer} from 'react-toastify';
@@ -26,6 +27,7 @@ function App() {
       <Route path="/" element={<Layout />} >
         <Route index element={<Home />} />
         <Route path="/users" element={<Users />} />
+        <Route path="/jusifieabs" element={<JusifieAbs />} />
         <Route path="/user/:userId" element={<User />} />
         <Route path="/newuser" element={<CreateUser />} />
         <Route path="/usersfiled" element={<UsersFiled/>} />

@@ -10,14 +10,14 @@ import { elementData } from '../data/coursesData';
 import api from '../api/students';
 
 
-export default function UsersFiled() {
+export default function JusifieAbs() {
     const [sessions, setSessions] = useState([]);
     const [data, setData] = useState([]);
     const [filterInfo, setFilterInfo] = useState({
         module: '',
         element: '',
         filiere: '',
-       
+        date: ''
     });
     // return true if all filter inputs were selected
     const areFiltersComplete = () => {
@@ -120,10 +120,18 @@ export default function UsersFiled() {
                             <option disabled value="">Veuillez choisir une filière</option>
                             <option>GINF1</option>
                             <option>GINF2</option>
-                            <option>GINF3</option>
+                            <option>Ginf3</option>
                         </select>
                     </div>
-                  
+                    <div>
+                        <input
+                            type="date"
+                            name="date"
+                            value={filterInfo.date}
+                            onChange={handleFilterChange}
+                            className='p-2 px-5 border-2 border-gray-300 rounded-lg  w-full max-w-xs'
+                        />
+                    </div>
                 </div>
             </div>
             {console.log(filterInfo)}
@@ -140,8 +148,8 @@ export default function UsersFiled() {
                                         <th>NOM</th>
                                         <th>PRENOM</th>
                                         <th>GROUPE</th>
-                                       
-                                        <th>ACTION</th>
+        
+                                        <th>Action</th>
                                     </tr>
                                 </thead>
                                 <tbody>
@@ -152,11 +160,11 @@ export default function UsersFiled() {
                                             <td>{row.last_name}</td>
                                             <td>{row.first_name}</td>
                                             <td>{row.class}</td>
-                                        
+                                            
                                             <td>
-                                                <Link to={"/user/" + row._id}>
-                                                    <button className='bg-green-500 hover:bg-green-600 rounded-md px-2 py-1 mr-2 text-white font-semibold'>Afficher</button>
-                                                </Link>
+                                                
+                                                    <button className='bg-green-500 hover:bg-green-600 rounded-md px-2 py-1 mr-2 text-white font-semibold'> Justifier l'absence</button>
+                                                
                                             </td>
                                         </tr>
                                     ))}
@@ -165,7 +173,10 @@ export default function UsersFiled() {
                         </div>
 
                     </div>
-                    
+                    <button
+                        className='bg-green-500 hover:bg-green-600 rounded-md px-2 py-1 mr-2 text-white font-semibold ml-[190px] mt-6 w-1/4 mb-10'
+                        onClick={handleValidate}
+                    >Valider</button>
                 </div>
                 :
                 <div role="alert" className="alert alert-warning w-fit mx-auto mt-20">

@@ -8,6 +8,7 @@ import { logout } from '../features/auth/authSlice';
 import BarChartIcon from '@mui/icons-material/BarChart';
 import PersonAddIcon from '@mui/icons-material/PersonAdd';
 import CalendarMonthIcon from '@mui/icons-material/CalendarMonth';
+import PostAddIcon from '@mui/icons-material/PostAdd';
 import { useDispatch } from 'react-redux';
 
 
@@ -46,6 +47,10 @@ export default function SideNav() {
           <Link to='/usersfiled' className={liStyle}>
             <BarChartIcon className='text-gray-400 mr-2 !important' />
             <p >Suivre l'absence </p>
+          </Link>
+          <Link to='/jusifieabs' className={liStyle}>
+            < PostAddIcon className='text-gray-400 mr-2 !important' />
+            <p > Justifier l'absence </p>
           </Link>
           <Link to='/newuser' className={liStyle}>
             <PersonAddIcon className='text-gray-400 mr-2 !important' />

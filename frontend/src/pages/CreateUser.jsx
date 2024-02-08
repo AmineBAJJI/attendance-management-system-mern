@@ -8,11 +8,11 @@ export default function CreateUser() {
     const inputStyle = 'mt-1 p-2  border-2 rounded-md w-[70%]';
 
     const [studentData, setStudentData] = useState({
-        lastName: '',
-        firstName: '',
+        last_name: '',
+        first_name: '',
         cne: '',
         apogee: '',
-        className: 'GINF1',
+        class_name: 'GINF1',
         has_chronic_cisease: false,
         has_disability: false // Defaulting to 'GINF 1'
     });
@@ -55,28 +55,28 @@ export default function CreateUser() {
             <form onSubmit={handleSubmit} className='grid grid-cols-2 gap-2 mt-5'>
                 <div>
                     {console.log(studentData)}
-                    <label htmlFor="lastName" className='text-gray-400 font-semibold mt-2'>Nom</label><br />
+                    <label htmlFor="last_name" className='text-gray-400 font-semibold mt-2'>Nom</label><br />
                     <input
                         type="text"
-                        value={studentData.lastName}
+                        value={studentData.last_name}
                         onChange={handleChange}
-                        id="lastName"
-                        name="lastName"
+                        id="last_name"
+                        name="last_name"
                         placeholder='Nom'
                         required
                         className='mt-1 p-2  border-2 rounded-md w-[70%]'
                     />
                 </div>
                 <div>
-                    <label htmlFor="firstName" className={labelStyle}>Prénom</label><br />
+                    <label htmlFor="first_name" className={labelStyle}>Prénom</label><br />
                     <input
                         type="text"
-                        value={studentData.firstName}
+                        value={studentData.first_name}
                         onChange={handleChange}
                         className={inputStyle}
                         placeholder='Prénom'
-                        id="firstName"
-                        name="firstName"
+                        id="first_name"
+                        name="first_name"
                         required
                     />
                 </div>
@@ -111,7 +111,7 @@ export default function CreateUser() {
                     <select
                         id="className"
                         name="className"
-                        value={studentData.className}
+                        value={studentData.class_name}
                         onChange={handleChange}
                         required
                         className={inputStyle}
