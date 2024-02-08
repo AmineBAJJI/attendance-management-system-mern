@@ -44,31 +44,49 @@ async function getAbsenceById(req, res) {
   }
 }
 
-// Controller function to add a new absence
-async function addAbsence(req, res) {
-  const { student_id, date, justified, session_id } = req.body;
-
-  console.log("student_id:", student_id);
-
-  const absence = new Absence({
-    student_id,
-    date: new Date(date),
-    justified,
-    session_id,
-  });
+// Controller function to add multiple absences
+async function addAbsences(req, res) {
+  const absencesData = req.body;
 
   try {
-    const newAbsence = await absence.save();
-    res.status(201).json({
-      success: true,
-      data: newAbsence,
-    });
+    // Validate input data
+    if (!Array.isArray(absencesData) || absencesData.length === 0) {
+      return res
+        .status(400)
+        .json({ error: "Invalid or empty array of absences" });
+    }
+
+    // Create an array to store the new Absence instances
+    const absences = [];
+
+    // Iterate through the absencesData array and create Absence instances
+    for (const data of absencesData) {
+      const { student_id, date, justified, session_id } = data;
+
+      // Validate individual absence data
+      if (!student_id || !date || !session_id) {
+        return res.status(400).json({ error: "Invalid absence data" });
+      }
+
+      // Create a new Absence instance
+      const absence = new Absence({
+        student_id,
+        date: new Date(date),
+        justified: !!justified,
+        session_id,
+      });
+
+      absences.push(absence);
+    }
+
+    // Save all the new absences to the database
+    await Absence.insertMany(absences);
+
+    // Send a success response
+    res.status(201).json({ message: "Absences added successfully", absences });
   } catch (error) {
-    console.error("Error in addAbsence:", error);
-    res.status(500).json({
-      success: false,
-      error: error.message,
-    });
+    // Handle errors
+    res.status(500).json({ error: error.message });
   }
 }
 

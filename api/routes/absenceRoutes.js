@@ -6,7 +6,7 @@ router.get("/absences", absenceController.getAllAbsences);
 
 router.get("/absences/:absenceId", absenceController.getAbsenceById);
 
-router.post("/absences/add", absenceController.addAbsence);
+router.post("/absences/add", absenceController.addAbsences);
 
 router.put("/absences/:absenceId", absenceController.updateAbsence);
 
