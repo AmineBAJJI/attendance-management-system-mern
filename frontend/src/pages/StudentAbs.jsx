@@ -5,6 +5,7 @@ import Avatar from '@mui/material/Avatar';
 
 function StudentAbs() {
     const [student, setStudent] = useState({});
+    const [abs, setAbs] = useState([]);
     const { studentId, classId } = useParams();
     const car = student.first_name && student.last_name ? student.first_name[0] + student.last_name[0] : '';
     useEffect(() => {
@@ -22,7 +23,21 @@ function StudentAbs() {
                 console.error('Error fetching data:', error);
             }
         };
+        const absData = async () => {
+            try {
 
+                const endpoint = `/absences/student_id/${studentId}/`;
+
+                const res = await api.get(endpoint);
+
+                setAbs(res.data)
+                console.log(res.data);
+
+            } catch (error) {
+                console.error('Error fetching data:', error);
+            }
+        };
+        absData()
         studentData();
     }, []);
     return (

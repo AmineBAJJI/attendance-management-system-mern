@@ -4,7 +4,10 @@ const absenceController = require("../controllers/absenceController");
 
 router.get("/absences", absenceController.getAllAbsences);
 
-router.get("/absences/:absenceId", absenceController.getAbsenceById);
+router.get(
+  "/absences/student_id/:student_id",
+  absenceController.getAbsenceByStudentId
+);
 
 router.post("/absences/add", absenceController.addAbsences);
 

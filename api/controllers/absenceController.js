@@ -3,7 +3,6 @@ const mongoose = require("mongoose");
 const Absence = require("../models/absenceModel");
 const Student = require("../models/studentModel");
 
-
 async function getAllAbsences(req, res) {
   try {
     const absences = await Absence.find();
@@ -19,23 +18,19 @@ async function getAllAbsences(req, res) {
   }
 }
 
-
-async function getAbsenceById(req, res) {
-  const absenceId = req.params.absenceId;
-
+// Controller function to get a specific absence by ID
+async function getAbsenceByStudentId(req, res) {
+  const student_id = req.params.student_id;
   try {
-    const absence = await Absence.findById(absenceId);
+    const absences = await Absence.find({ student_id });
 
-    if (!absence) {
+    if (!absences) {
       return res.status(404).json({
-        message: "Absence not found",
+        message: "Pas d'absences pour cet étudiant",
       });
     }
 
-    res.status(200).json({
-      success: true,
-      data: absence,
-    });
+    res.status(200).json(absences);
   } catch (error) {
     res.status(500).json({
       success: false,
@@ -90,30 +85,27 @@ async function addAbsences(req, res) {
   }
 }
 
-// Controller function to update an absence to justified=true
 async function updateAbsence(req, res) {
-  const absenceId = req.params.absenceId;
-
+  const { absenceId } = req.params;
   try {
-    const updatedAbsence = await Absence.findByIdAndUpdate(
-      absenceId,
-      { justified: true },
-      { new: true }
-    );
+    // Find the absence by ID
+    const absence = await Absence.findById(absenceId);
 
-    if (!updatedAbsence) {
-      return res.status(404).json({ error: "Absence not found" });
+    if (!absence) {
+      return res.status(404).json({ message: "Absence not found" });
     }
 
-    res.status(200).json({
-      success: true,
-      data: updatedAbsence,
-    });
+    // Update the justified field to true
+    absence.justified = true;
+
+    // Save the updated absence
+    await absence.save();
+
+    // Send the updated absence as a response
+    res.json(absence);
   } catch (error) {
-    res.status(500).json({
-      success: false,
-      error: error.message,
-    });
+    // Handle errors
+    res.status(500).json({ error: error.message });
   }
 }
 
@@ -153,7 +145,7 @@ async function getAbsenceByClass(req, res) {
 
 module.exports = {
   getAllAbsences,
-  getAbsenceById,
+  getAbsenceByStudentId,
   addAbsences,
   updateAbsence,
   getAbsenceByClass,
