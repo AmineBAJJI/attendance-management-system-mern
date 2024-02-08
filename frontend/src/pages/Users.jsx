@@ -1,17 +1,15 @@
 import React, { useState, useEffect } from 'react'
-import { DataGrid } from '@mui/x-data-grid';
-import { userRows } from '../data/data';
-import DeleteOutlineIcon from '@mui/icons-material/DeleteOutline';
 import { Link } from 'react-router-dom';
 import { modulesData } from '../data/coursesData';
 import { elementData } from '../data/coursesData';
-
+import {toast} from 'react-toastify'
 
 import api from '../api/students';
 
 
 export default function Users() {
     const [sessions, setSessions] = useState([]);
+    const [absList,setabsList] = useState([])
     const [data, setData] = useState([]);
     const [filterInfo, setFilterInfo] = useState({
         module: '',
@@ -19,7 +17,7 @@ export default function Users() {
         filiere: '',
         date: ''
     });
-    // return true if all filter inputs were selected
+   
     const areFiltersComplete = () => {
         return Object.values(filterInfo).every(value => value !== '');
     };
@@ -31,10 +29,26 @@ export default function Users() {
             [name]: value
         }));
     };
+    const handleCheckboxChange = (student_id, session_id, checked) => {
+        if (checked) {
+            const date = filterInfo.date
+            setabsList(prevAbsList => [...prevAbsList, { student_id, session_id, date }]);
+        } else {
+            
+            setabsList(prevAbsList => prevAbsList.filter(item => !(item.studentId === student_id && item.sessionId === session_id)));
+        }
+    };
 
 
-    const handleValidate = () => {
-        window.location.reload(); // Reload the page
+    const handleValidate = async () => {
+        try {
+            const res = await api.post('/absences/add',absList);
+            toast.success("L'opération a été réalisée avec succès");
+            console.log('this is the res' , res);
+        } catch (error) {
+            console.error(error);
+        }
+        
     }
     useEffect(() => {
         const studentsData = async () => {
@@ -76,7 +90,7 @@ export default function Users() {
             <div className='w-[75%] mx-auto mt-8'>
                 <div className=' px-10 pt-8 mt-4 grid grid-cols-2  gap-6'>
 
-
+                    {console.log(absList)}
                     <div>
                         <select
                             id="module"
@@ -162,8 +176,15 @@ export default function Users() {
                                             <td>{row.last_name}</td>
                                             <td>{row.first_name}</td>
                                             <td>{row.class}</td>
-                                            <td><input type="checkbox" className="checkbox checkbox-accent [--chkfg:white]" /></td>
-                                            <td><input type="checkbox" className="checkbox checkbox-accent [--chkfg:white]" /></td>
+                                            {sessions.map(session => (
+                                                <td key={session._id}>
+                                                    <input
+                                                        type="checkbox"
+                                                        className="checkbox checkbox-accent [--chkfg:white]"
+                                                        onChange={(e) => handleCheckboxChange(row._id, session._id, e.target.checked)}
+                                                    />
+                                                </td>
+                                            ))}
                                             <td>
                                                 <Link to={"/user/" + row._id+"/class/"+row.class+"/element/"+filterInfo.element}>
                                                     <button className='bg-green-500 hover:bg-green-600 rounded-md px-2 py-1 mr-2 text-white font-semibold'>Afficher</button>

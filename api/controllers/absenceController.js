@@ -154,7 +154,7 @@ async function getAbsenceByClass(req, res) {
 module.exports = {
   getAllAbsences,
   getAbsenceById,
-  addAbsence,
+  addAbsences,
   updateAbsence,
   getAbsenceByClass,
 };

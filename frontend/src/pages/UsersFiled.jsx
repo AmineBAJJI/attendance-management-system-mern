@@ -40,7 +40,7 @@ export default function UsersFiled() {
         const studentsData = async () => {
             try {
 
-                const endpoint = `/students/class/${filterInfo.filiere}`;
+                const endpoint = `/students/class/${filterInfo.filiere}/element/${filterInfo.element}`;
 
                 const res = await api.get(endpoint);
                 
@@ -51,19 +51,11 @@ export default function UsersFiled() {
                 console.error('Error fetching data:', error);
             }
         };
-        const sessionData = async () => {
-            try {
-                const response = await api.get(`/sessions/date/${filterInfo.date}`)
-                setSessions(response.data);
-                console.log('this the response',response.data);
-            } catch (error) {
-                console.error(error);
-            }
-        }
+       
 
         if (areFiltersComplete()) {
             studentsData();
-            sessionData();
+           
         }
     }, [filterInfo]);
     
@@ -140,7 +132,7 @@ export default function UsersFiled() {
                                         <th>NOM</th>
                                         <th>PRENOM</th>
                                         <th>GROUPE</th>
-                                       
+                                       <th>nbr d'absences ( justifiée)</th>
                                         <th>ACTION</th>
                                     </tr>
                                 </thead>
@@ -152,9 +144,9 @@ export default function UsersFiled() {
                                             <td>{row.last_name}</td>
                                             <td>{row.first_name}</td>
                                             <td>{row.class}</td>
-                                        
+                                            <td>{row.element_absences}({row.element_justified})</td>
                                             <td>
-                                                <Link to={"/user/" + row._id}>
+                                            <Link to={"/user/" + row._id+"/class/"+row.class+"/element/"+filterInfo.element}>
                                                     <button className='bg-green-500 hover:bg-green-600 rounded-md px-2 py-1 mr-2 text-white font-semibold'>Afficher</button>
                                                 </Link>
                                             </td>

@@ -11,13 +11,12 @@ import api from '../api/students';
 
 
 export default function JusifieAbs() {
-    const [sessions, setSessions] = useState([]);
+   
     const [data, setData] = useState([]);
     const [filterInfo, setFilterInfo] = useState({
-        module: '',
-        element: '',
+       
         filiere: '',
-        date: ''
+
     });
     // return true if all filter inputs were selected
     const areFiltersComplete = () => {
@@ -63,7 +62,7 @@ export default function JusifieAbs() {
 
         if (areFiltersComplete()) {
             studentsData();
-            sessionData();
+      
         }
     }, [filterInfo]);
     
@@ -77,40 +76,8 @@ export default function JusifieAbs() {
                 <div className=' px-10 pt-8 mt-4 grid grid-cols-2  gap-6'>
 
 
-                    <div>
-                        <select
-                            id="module"
-                            name="module"
-                            value={filterInfo.module}
-                            onChange={handleFilterChange}
-                            className='select select-ghost w-full max-w-xs border-2 border-gray-300'
-                        >
-                            <option value="">Select Module</option>
-                            {modulesData.map((module) => (
-                                <option key={module.id} value={module.id}>
-                                    {module.module}
-                                </option>
-                            ))}
-                        </select>
-                    </div>
-                    <div>
-
-                        <select
-                            id="element"
-                            name="element"
-                            value={filterInfo.element}
-                            onChange={handleFilterChange}
-                            className='select select-ghost w-full max-w-xs border-2 border-gray-300'
-                        >
-                            <option value="">Select Element</option>
-                            {elementData.map((element, index) => (
-                                <option key={index} value={element}>
-                                    {element}
-                                </option>
-                            ))}
-                        </select>
-                    </div>
-                    <div>
+                   
+                    <div className='flex justify-center'>
                         <select
                             name="filiere"
                             value={filterInfo.filiere}
@@ -120,18 +87,10 @@ export default function JusifieAbs() {
                             <option disabled value="">Veuillez choisir une filière</option>
                             <option>GINF1</option>
                             <option>GINF2</option>
-                            <option>Ginf3</option>
+                            <option>GINF3</option>
                         </select>
                     </div>
-                    <div>
-                        <input
-                            type="date"
-                            name="date"
-                            value={filterInfo.date}
-                            onChange={handleFilterChange}
-                            className='p-2 px-5 border-2 border-gray-300 rounded-lg  w-full max-w-xs'
-                        />
-                    </div>
+                    
                 </div>
             </div>
             {console.log(filterInfo)}
@@ -162,9 +121,9 @@ export default function JusifieAbs() {
                                             <td>{row.class}</td>
                                             
                                             <td>
-                                                
-                                                    <button className='bg-green-500 hover:bg-green-600 rounded-md px-2 py-1 mr-2 text-white font-semibold'> Justifier l'absence</button>
-                                                
+                                                <Link to={`/student/${row._id}/class/${filterInfo.filiere}`}>
+                                                    <button className='bg-green-500 hover:bg-green-600 rounded-md px-2 py-1 mr-2 text-white font-semibold'>Vérifier les absences </button>
+                                                </Link>
                                             </td>
                                         </tr>
                                     ))}
@@ -173,10 +132,7 @@ export default function JusifieAbs() {
                         </div>
 
                     </div>
-                    <button
-                        className='bg-green-500 hover:bg-green-600 rounded-md px-2 py-1 mr-2 text-white font-semibold ml-[190px] mt-6 w-1/4 mb-10'
-                        onClick={handleValidate}
-                    >Valider</button>
+                   
                 </div>
                 :
                 <div role="alert" className="alert alert-warning w-fit mx-auto mt-20">

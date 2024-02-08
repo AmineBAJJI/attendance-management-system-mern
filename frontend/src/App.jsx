@@ -6,7 +6,7 @@ import Layout from './pages/Layout'
 import Users from './pages/Users'
 import User from './pages/User'
 import CreateUser from './pages/CreateUser'
-
+import StudentAbs from './pages/StudentAbs';
 import CreateSession from './pages/CreateSession';
 import JusifieAbs from './pages/JustifieAbs';
 
@@ -29,6 +29,7 @@ function App() {
         <Route path="/users" element={<Users />} />
         <Route path="/jusifieabs" element={<JusifieAbs />} />
         <Route path="/user/:userId/class/:classId/element/:elementId" element={<User />} />
+        <Route path="/student/:studentId/class/:classId" element={<StudentAbs/>} />
         <Route path="/newuser" element={<CreateUser />} />
         <Route path="/usersfiled" element={<UsersFiled/>} />
         <Route path="/newsession" element={<CreateSession/>} />

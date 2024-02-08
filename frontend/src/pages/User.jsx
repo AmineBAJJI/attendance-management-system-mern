@@ -1,16 +1,7 @@
 import React, { useEffect, useState } from 'react'
-import { Link } from 'react-router-dom'
 import { useParams } from 'react-router-dom';
 import api from '../api/students';
-import Chart from '../components/Chart'
-import { UserData } from '../data/data'
 import Avatar from '@mui/material/Avatar';
-import PersonOutlineOutlinedIcon from '@mui/icons-material/PersonOutlineOutlined';
-import FileUploadOutlinedIcon from '@mui/icons-material/FileUploadOutlined';
-import CalendarTodayOutlinedIcon from '@mui/icons-material/CalendarTodayOutlined';
-import PhoneAndroidOutlinedIcon from '@mui/icons-material/PhoneAndroidOutlined';
-import AlternateEmailOutlinedIcon from '@mui/icons-material/AlternateEmailOutlined';
-import FmdGoodOutlinedIcon from '@mui/icons-material/FmdGoodOutlined';
 import Feature from '../components/Feature';
 import AccessibleIcon from '@mui/icons-material/Accessible';
 import MedicalInformationIcon from '@mui/icons-material/MedicalInformation';
