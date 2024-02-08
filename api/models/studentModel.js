@@ -2,19 +2,18 @@ const mongoose = require("mongoose");
 const classEnums = require("../constants/classEnums");
 
 const studentSchema = new mongoose.Schema({
-  lastName: {
+  last_name: {
     type: String,
     required: [true, "Last name is required"],
     trim: true,
   },
-  firstName: {
+  first_name: {
     type: String,
     required: [true, "First name is required"],
     trim: true,
   },
   cne: {
     type: String,
-    required: [true, "CNE is required"],
     unique: true,
     trim: true,
   },
@@ -24,31 +23,21 @@ const studentSchema = new mongoose.Schema({
     unique: true,
     trim: true,
   },
-  className: {
+  class: {
     type: String,
     required: [true, "Class name is required"],
     enum: classEnums,
   },
-  healthInfo: {
-    hasChronicDisease: {
-      type: Boolean,
-      default: false,
-    },
-    chronicDiseaseDetails: {
-      type: String,
-      default: null,
-    },
-    hasDisability: {
-      type: Boolean,
-      default: false,
-    },
-    disabilityDetails: {
-      type: String,
-      default: null,
-    },
+  has_chronic_cisease: {
+    type: Boolean,
+    default: false,
+  },
+  has_disability: {
+    type: Boolean,
+    default: false,
   },
 });
 
-const Student = mongoose.model("student", studentSchema);
+const Student = mongoose.model("Student", studentSchema);
 
 module.exports = Student;

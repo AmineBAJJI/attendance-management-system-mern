@@ -106,40 +106,17 @@ async function getAbsenceByClass(req, res) {
   try {
     console.log("Class Name:", className); // Log class name
 
-    const absencesByClass = await Absence.aggregate([
-      {
-        $lookup: {
-          from: "students",
-          localField: "student_id",
-          foreignField: "_id",
-          as: "student_info",
-        },
+    const absencesByClass = await Absence.find({
+      student_id: {
+        $in: await Student.find({ class: className }).distinct("_id"),
       },
-      {
-        $unwind: "$student_info",
-      },
-      {
-        $match: {
-          "student_info.class": className,
-          student_id: {
-            $convert: {
-              input: "$student_id",
-              to: "objectId",
-            },
-          },
-        },
-      },
-      {
-        $addFields: {
-          student_id: "$student_info._id",
-        },
-      },
-      {
-        $project: {
-          student_info: 0, // Exclude unnecessary fields from the result
-        },
-      },
-    ]);
+    })
+      .populate({
+        path: "student_id",
+        model: "Student", // Use the correct model name
+        select: "_id last_name first_name", // Add other fields if needed
+      })
+      .select("student_id date justified session_id"); // Include other fields you need
 
     console.log("absencesByClass:", absencesByClass); // Log the result to check
 
