@@ -10,5 +10,9 @@ router.get(
   studentController.getStudentsByClassAndElement
 );
 router.get("/students/class/:class", studentController.getStudentsByClass);
+router.get(
+  "/students/class/:class/element/:element/id/:id",
+  studentController.getStudentsByClassAndElementAndId
+);
 
 module.exports = router;

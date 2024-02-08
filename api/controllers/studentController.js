@@ -1,6 +1,7 @@
 const Student = require("../models/studentModel");
 const Absence = require("../models/absenceModel");
 const Session = require("../models/sessionModel");
+
 // Get all students
 module.exports.getAllStudents = async (req, res) => {
   try {
@@ -26,6 +27,7 @@ module.exports.getStudentById = async (req, res) => {
   }
 };
 
+// Get students by class
 module.exports.getStudentsByClass = async (req, res) => {
   const { class: className } = req.params;
   try {
@@ -36,6 +38,7 @@ module.exports.getStudentsByClass = async (req, res) => {
   }
 };
 
+// Get students by class and element
 module.exports.getStudentsByClassAndElement = async (req, res) => {
   const { class: className, element } = req.params;
 
@@ -101,6 +104,60 @@ module.exports.getStudentsByClassAndElement = async (req, res) => {
     res.json(await Promise.all(studentsWithAbsences));
   } catch (error) {
     // Handle errors related to finding students or absences
+    res.status(500).json({ error: error.message });
+  }
+};
+
+// Get student by class, element, and ID
+module.exports.getStudentsByClassAndElementAndId = async (req, res) => {
+  const { class: className, element, id: studentId } = req.params;
+
+  try {
+    const student = await Student.findOne({ _id: studentId });
+
+    if (!student) {
+      return res.status(404).json({ message: "Student not found" });
+    }
+
+    const sessionIds = await Session.find({
+      element,
+      class: className,
+    }).distinct("_id");
+
+    const elementAbsences = await Absence.find({
+      session_id: { $in: sessionIds },
+      student_id: studentId,
+    });
+
+    const element_absences = elementAbsences.length;
+    const element_justified = elementAbsences.filter(
+      (absence) => absence.justified
+    ).length;
+
+    const element_not_justified = element_absences - element_justified;
+
+    const totalAbsences = await Absence.find({
+      student_id: studentId,
+    });
+
+    const total_justified = totalAbsences.filter(
+      (absence) => absence.justified
+    );
+    const total_not_justified = totalAbsences.length - total_justified.length;
+
+    const studentWithAbsences = {
+      ...student.toObject(),
+      total_absences: totalAbsences.length,
+      element_absences: element_absences,
+      element_not_justified: element_not_justified,
+      element_justified: element_justified,
+      total_justified: total_justified.length,
+      total_not_justified: total_not_justified,
+    };
+
+    // Send the result as a JSON response
+    res.json(studentWithAbsences);
+  } catch (error) {
     res.status(500).json({ error: error.message });
   }
 };
