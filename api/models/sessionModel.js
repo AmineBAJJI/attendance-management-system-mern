@@ -1,7 +1,11 @@
 const mongoose = require("mongoose");
 
 const sessionSchema = new mongoose.Schema({
-  subject: {
+  module: {
+    type: String,
+    required: true,
+  },
+  element: {
     type: String,
     required: true,
   },

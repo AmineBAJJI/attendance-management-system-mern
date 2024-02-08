@@ -1,0 +1,26 @@
+version: "3.7"
+
+services:
+  server:
+    build:
+      context: ./api
+      dockerfile: Dockerfile.dev
+    image: myapp-server
+    container_name: myapp-node-server
+    volumes:
+      - ./api:/usr/src/app # named volume
+      - /usr/src/app/node_modules # anonymous volume for node_modules only
+    ports:
+      - "3000:3000"
+    env_file: ./api/.env
+  client:
+    build:
+      context: ./frontend
+      dockerfile: Dockerfile.dev
+    image: myapp-client
+    container_name: myapp-react-client
+    volumes:
+      - ./frontend/:/usr/app
+      - /usr/app/node_modules
+    ports:
+      - "3001:3001"

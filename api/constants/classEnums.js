@@ -19,6 +19,9 @@ const classEnums = [
   "GSTR1",
   "GSTR2",
   "GSTR3",
+  "GCYS1",
+  "GCYS2",
+  "GCYS3",
 ];
 
 module.exports = classEnums;

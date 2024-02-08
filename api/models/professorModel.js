@@ -1,20 +1,20 @@
 const mongoose = require("mongoose");
 
 const professorSchema = new mongoose.Schema({
-  user: {
+  userId: {
     type: mongoose.Schema.Types.ObjectId,
     ref: "User",
     required: true,
   },
-  last_name: {
+  lastName: {
     type: String,
     required: true,
   },
-  first_name: {
+  firstName: {
     type: String,
     required: true,
   },
-  is_program_manager: {
+  isProgramManager: {
     type: Boolean,
     default: false,
   },
@@ -22,7 +22,7 @@ const professorSchema = new mongoose.Schema({
     type: String,
     default: "",
     required: function () {
-      return this.is_program_manager;
+      return this.isProgramManager;
     },
   },
 });
