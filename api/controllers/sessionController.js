@@ -30,7 +30,6 @@ module.exports.getSessionsByDate = async (req, res) => {
       date: new Date(date),
       professor_id: professorId,
     });
-    res.status(200).json(sessions);
     if (sessions.length === 0) {
       return res.status(404).json({
         message: "Pas de séances dans cette date pour vous.",
