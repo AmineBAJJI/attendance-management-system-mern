@@ -28,7 +28,7 @@ function App() {
         <Route index element={<Home />} />
         <Route path="/users" element={<Users />} />
         <Route path="/jusifieabs" element={<JusifieAbs />} />
-        <Route path="/user/:userId" element={<User />} />
+        <Route path="/user/:userId/class/:classId/element/:elementId" element={<User />} />
         <Route path="/newuser" element={<CreateUser />} />
         <Route path="/usersfiled" element={<UsersFiled/>} />
         <Route path="/newsession" element={<CreateSession/>} />

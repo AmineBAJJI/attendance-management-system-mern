@@ -165,7 +165,7 @@ export default function Users() {
                                             <td><input type="checkbox" className="checkbox checkbox-accent [--chkfg:white]" /></td>
                                             <td><input type="checkbox" className="checkbox checkbox-accent [--chkfg:white]" /></td>
                                             <td>
-                                                <Link to={"/user/" + row._id}>
+                                                <Link to={"/user/" + row._id+"/class/"+row.class+"/element/"+filterInfo.element}>
                                                     <button className='bg-green-500 hover:bg-green-600 rounded-md px-2 py-1 mr-2 text-white font-semibold'>Afficher</button>
                                                 </Link>
                                             </td>

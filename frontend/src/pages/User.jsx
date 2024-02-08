@@ -19,12 +19,13 @@ import LeaderboardIcon from '@mui/icons-material/Leaderboard';
 
 export default function User({ props }) {
     const [student, setStudent] = useState({});
-    let { userId } = useParams();
+    const { userId ,classId ,elementId } = useParams();
+
     useEffect(() => {
         const studentData = async () => {
             try {
 
-                const endpoint = `/students/${userId}`;
+                const endpoint = `/students/class/${classId}/element/${elementId}/id/${userId}/`;
 
                 const res = await api.get(endpoint);
 
@@ -86,13 +87,12 @@ export default function User({ props }) {
             <div className='flex item-center mt-6 gap-8'>
            
                 <div className='w-full'>
-                    <div className='grid grid-cols-3 gap-4 w-full'>
+                    <div className='grid grid-cols-2 gap-4 w-full'>
                         <Feature data={{ icon: <AccessibleIcon fontSize='large' className='text-gray-400 mr-2 !important ' />, title: 'A-t-il un handicap ?', amount: studentStatus.hasDisabilityStatus, }} className='w-full' />
                         <Feature data={{ icon: <MedicalInformationIcon fontSize='large' className='text-gray-400 mr-2 !important ' />, title: 'A-t-il une maladie chronique ?', amount: studentStatus.hasChronicDiseaseStatus, }} className='w-full' />
-                        <Feature data={{ icon: <LeaderboardIcon fontSize='large' className='text-gray-400 mr-2 !important ' />, title: "Le nombre total d'absences", amount: studentStatus.hasDisabilityStatus, }} className='w-full' />
-                        <Feature data={{ icon: <LeaderboardIcon fontSize='large' className='text-gray-400 mr-2 !important ' />, title: "Le nombre d'absences par matière", amount: studentStatus.hasChronicDiseaseStatus, }} className='w-full' />
-                        <Feature data={{ icon: <LeaderboardIcon fontSize='large' className='text-gray-400 mr-2 !important ' />, title: "Le nombre d'absences justifiées", amount: studentStatus.hasDisabilityStatus, }} className='w-full' />
-                        <Feature data={{ icon: <LeaderboardIcon fontSize='large' className='text-gray-400 mr-2 !important ' />, title: "Le nombre d'absences non justifiées", amount: studentStatus.hasChronicDiseaseStatus, }} className='w-full' />
+                        <Feature data={{ icon: <LeaderboardIcon fontSize='large' className='text-gray-400 mr-2 !important ' />, title: "Le nombre total d'absences ( justifiée)", amount: `${student.total_absences} (${student.total_justified})` }} className='w-full' />
+                        <Feature data={{ icon: <LeaderboardIcon fontSize='large' className='text-gray-400 mr-2 !important ' />, title: "Le nombre d'absences par matière ( justifiée)", amount: `${student.element_absences} (${student.element_justified})`, }} className='w-full' />
+                        
                     </div>
 
                 </div>
