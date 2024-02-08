@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react'
 import { useParams } from 'react-router-dom';
 import api from '../api/students';
 import Avatar from '@mui/material/Avatar';
+import {toast} from 'react-toastify'
 
 function StudentAbs() {
     const [student, setStudent] = useState({});
@@ -30,8 +31,8 @@ function StudentAbs() {
 
                 const res = await api.get(endpoint);
 
-                setAbs(res.data)
-                console.log(res.data);
+                setAbs(res.data.absences)
+                console.log(res.data.absences);
 
             } catch (error) {
                 console.error('Error fetching data:', error);
@@ -40,6 +41,16 @@ function StudentAbs() {
         absData()
         studentData();
     }, []);
+
+    const handleAbsenceJustification = async(id) => {
+        try {
+            const res = await api.put(`/absences/${id}/`);
+            toast.success("L'opération a été réalisée avec succès.")
+            console.log(res)
+        } catch (error) {
+            console.error(error);
+        }
+    }
     return (
         <div className='p-8 w-[82%]'>
             <div>
@@ -82,33 +93,28 @@ function StudentAbs() {
                                 <thead>
                                     <tr>
                                         <th></th>
-                                        <th>APOGEE</th>
-                                        <th>NOM</th>
-                                        <th>PRENOM</th>
-                                        <th>GROUPE</th>
+                                        <th>Date</th>
+                                        <th>Heure de début</th>
+                                        <th>Matière</th>
                                         
                                         <th>ACTION</th>
                                     </tr>
                                 </thead>
                                 <tbody>
-                                  
-                                        <tr >
-                                            <th></th>
-                                            <th></th>
-                                            <td></td>
-                                            <td></td>
-                                            <td></td>
-                                            
-                                                
+                            {abs.map((row, index) => (
+                                <tr key={row._id}>
+                                    <td>{index + 1}</td>
+                                    <td>{row.session_info.date.split('T')[0]}</td>
+                                    <td>{row.session_info.start_time}</td>
+                                    <td>{row.session_info.element}</td>
+
+                                    <td>{row.justified ? <p className='text-green-600'>L'absence est justifiée.</p>: 
+                                    <button className='bg-blue-500 hover:bg-blue-600 rounded-md px-2 py-1 text-white font-semibold' onClick={() => handleAbsenceJustification(row._id)}>Justifier l'absence</button>}
                                         
-                                            <td>
-                                                
-                                                    <button className='bg-green-500 hover:bg-green-600 rounded-md px-2 py-1 mr-2 text-white font-semibold'>Justifier l'absence</button>
-                                               
-                                            </td>
-                                        </tr>
-                             
-                                </tbody>
+                                    </td>
+                                </tr>
+                            ))}
+                        </tbody>
                             </table>
 
                 
