@@ -2,6 +2,8 @@
 const mongoose = require("mongoose");
 const Absence = require("../models/absenceModel");
 const Student = require("../models/studentModel");
+const Session = require("../models/sessionModel");
+const { ObjectId } = require("mongoose").Types;
 
 async function getAllAbsences(req, res) {
   try {
@@ -18,19 +20,52 @@ async function getAllAbsences(req, res) {
   }
 }
 
-// Controller function to get a specific absence by ID
+// Controller function to get absences for a specific student by ID
 async function getAbsenceByStudentId(req, res) {
   const student_id = req.params.student_id;
+
   try {
+    // Find absences for the specific student
     const absences = await Absence.find({ student_id });
 
-    if (!absences) {
+    if (absences.length === 0) {
       return res.status(404).json({
         message: "Pas d'absences pour cet étudiant",
+        absences: [], // Return an empty array when there are no absences
       });
     }
 
-    res.status(200).json(absences);
+    // Fetch session details for each absence
+    const absencesWithSessions = await Promise.all(
+      absences.map(async (absence) => {
+        try {
+          // Populate session details for the given absence
+          const populatedAbsence = await Absence.populate(absence, {
+            path: "session_id",
+            model: "Session",
+          });
+
+          // Exclude session_id from the toObject() method
+          const { session_id, ...absenceWithoutSessionId } =
+            populatedAbsence.toObject();
+
+          return {
+            ...absenceWithoutSessionId,
+            session_info: populatedAbsence.session_id, // Rename to session_info
+          };
+        } catch (error) {
+          console.error("Error while processing absence:", error.message);
+          return null;
+        }
+      })
+    );
+
+    // Filter out null values resulting from errors in processing individual absences
+    const validAbsencesWithSessions = absencesWithSessions.filter(Boolean);
+
+    res.status(200).json({
+      absences: validAbsencesWithSessions,
+    });
   } catch (error) {
     res.status(500).json({
       success: false,
