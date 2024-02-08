@@ -1,5 +1,7 @@
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import { Link } from 'react-router-dom'
+import { useParams } from 'react-router-dom';
+import api from '../api/students';
 import Chart from '../components/Chart'
 import { UserData } from '../data/data'
 import Avatar from '@mui/material/Avatar';
@@ -10,62 +12,89 @@ import PhoneAndroidOutlinedIcon from '@mui/icons-material/PhoneAndroidOutlined';
 import AlternateEmailOutlinedIcon from '@mui/icons-material/AlternateEmailOutlined';
 import FmdGoodOutlinedIcon from '@mui/icons-material/FmdGoodOutlined';
 import Feature from '../components/Feature';
+import AccessibleIcon from '@mui/icons-material/Accessible';
+import MedicalInformationIcon from '@mui/icons-material/MedicalInformation';
+import LeaderboardIcon from '@mui/icons-material/Leaderboard';
 
-export default function User() {
 
-    const inputStyle = "mt-1 border  border-y-2 border-x-0 border-t-0 border-gray-400 p-1";
+export default function User({ props }) {
+    const [student, setStudent] = useState({});
+    let { userId } = useParams();
+    useEffect(() => {
+        const studentData = async () => {
+            try {
+
+                const endpoint = `/students/${userId}`;
+
+                const res = await api.get(endpoint);
+
+                setStudent(res.data)
+                console.log(res.data);
+
+            } catch (error) {
+                console.error('Error fetching data:', error);
+            }
+        };
+
+        studentData();
+    }, []);
+
+    const car = student.first_name && student.last_name ? student.first_name[0] + student.last_name[0] : '';
+    const studentStatus = {
+        hasDisabilityStatus: student.hasDisability ? 'Oui' : 'Non',
+        hasChronicDiseaseStatus: student.hasChronicDisease ? 'Oui' : 'Non',
+
+
+    }
     return (
         <div className='p-8 w-[82%] '>
+
             <div>
-                <h1 className='text-3xl font-bold'>Les informations de l'étudiant</h1>
+                <h1 className='text-3xl font-bold'>Les informations de l'étudiant(e) </h1>
             </div>
-            <div className='flex item-center mt-6 gap-8'>
-                <div className='w-[40%] rounded-md shadow-xl p-12'>
+            <div className='w-full rounded-md shadow-xl p-12'>
                     <div className='flex items-center gap-4'>
-                        <Avatar>H</Avatar>
+                    <Avatar>{car}</Avatar>
+
                         <div>
-                            <span className='text-lg font-semibold'>Nabil Kachar</span>
-                            <p className='text-sm font-thin text-gray-500'>GINF 1 </p>
+                            <span className='text-lg font-semibold'>{student.first_name} {student.last_name}</span>
+                            <p className='text-sm font-thin text-gray-500'>{student.class}</p>
                         </div>
                     </div>
                     <h3 className='mt-4 font-semibold text-gray-400'>les details de l'etudiant</h3>
                     <div className='flex items-center mt-4'>
-                        <PersonOutlineOutlinedIcon />
-                        <span className='ml-2'>Nabil kachar</span>
+                        <p className='font-bold'>Nom complete :</p>
+                        <span className='ml-2'>{student.first_name} {student.last_name}</span>
                     </div>
                     <div className='flex items-center mt-4'>
-                        <PersonOutlineOutlinedIcon />
-                        <span className='ml-2'>P14366921</span>
+                    <p className='font-bold'>Code Apoggee :</p>
+                        <span className='ml-2'>{student.apogee}</span>
                     </div>
                     <div className='flex items-center mt-4'>
-                        <CalendarTodayOutlinedIcon />
-                        <span className='ml-2'>07.02.2003</span>
+                    <p className='font-bold'>Groupe :</p>
+                        <span className='ml-2'>{student.class}</span>
                     </div>
                     <div className='flex items-center mt-4'>
-                        <PhoneAndroidOutlinedIcon />
-                        <span className='ml-2'>+212 770378917</span>
+                    <p className='font-bold'>Année scolaire :</p>
+                        <span className='ml-2'>2023/2024</span>
                     </div>
-                    <div className='flex items-center mt-4'>
-                        <AlternateEmailOutlinedIcon />
-                        <span className='ml-2'>nabilkachar03@gmail.com</span>
-                    </div>
-                    <div className='flex items-center mt-4'>
-                        < FmdGoodOutlinedIcon />
-                        <span className='ml-2'>Tanger | MA</span>
-                    </div>
+                   
 
 
 
                 </div>
-                <div className='w-[60%]'>
-                    <div className='flex justify-center items-center gap-8 w-full'>
-                        <Feature data={{ title: 'December', amount: 5}} className='w-full' />
-                        <Feature data={{ title: 'November', amount: 5}} className='w-full' />
-                        <Feature data={{ title: 'October', amount: 5}} className='w-full' />
+            <div className='flex item-center mt-6 gap-8'>
+           
+                <div className='w-full'>
+                    <div className='grid grid-cols-3 gap-4 w-full'>
+                        <Feature data={{ icon: <AccessibleIcon fontSize='large' className='text-gray-400 mr-2 !important ' />, title: 'A-t-il un handicap ?', amount: studentStatus.hasDisabilityStatus, }} className='w-full' />
+                        <Feature data={{ icon: <MedicalInformationIcon fontSize='large' className='text-gray-400 mr-2 !important ' />, title: 'A-t-il une maladie chronique ?', amount: studentStatus.hasChronicDiseaseStatus, }} className='w-full' />
+                        <Feature data={{ icon: <LeaderboardIcon fontSize='large' className='text-gray-400 mr-2 !important ' />, title: "Le nombre total d'absences", amount: studentStatus.hasDisabilityStatus, }} className='w-full' />
+                        <Feature data={{ icon: <LeaderboardIcon fontSize='large' className='text-gray-400 mr-2 !important ' />, title: "Le nombre d'absences par matière", amount: studentStatus.hasChronicDiseaseStatus, }} className='w-full' />
+                        <Feature data={{ icon: <LeaderboardIcon fontSize='large' className='text-gray-400 mr-2 !important ' />, title: "Le nombre d'absences justifiées", amount: studentStatus.hasDisabilityStatus, }} className='w-full' />
+                        <Feature data={{ icon: <LeaderboardIcon fontSize='large' className='text-gray-400 mr-2 !important ' />, title: "Le nombre d'absences non justifiées", amount: studentStatus.hasChronicDiseaseStatus, }} className='w-full' />
                     </div>
-                    <div className='w-full h-fit'>
-                        <Chart data={UserData} title="les analyses de l'abscence" grid dataKey="active User" />
-                    </div>
+
                 </div>
 
 

@@ -12,7 +12,9 @@ export default function CreateUser() {
         firstName: '',
         cne: '',
         apogee: '',
-        className: 'GINF1', // Defaulting to 'GINF 1'
+        className: 'GINF1',
+        has_chronic_cisease: false,
+        has_disability: false // Defaulting to 'GINF 1'
     });
 
     const handleSubmit = async (e) => {
@@ -24,13 +26,13 @@ export default function CreateUser() {
             toast.success("L'étudiant(e) a été ajouté avec succès.");
 
             setStudentData({
-                lastName: '',
-                firstName: '',
+                last_name: '',
+                first_name: '',
                 cne: '',
                 apogee: '',
                 className: 'GINF1',
-                hasChronicDisease: false,
-                hasDisability: false
+                has_chronic_cisease: false,
+                has_disability: false
             });
         } catch (err) {
             console.error('Error adding student:', err);
@@ -120,11 +122,11 @@ export default function CreateUser() {
                     </select>
                 </div>
                 <div>
-                    <label htmlFor="hasChronicDisease" className={labelStyle}>A-t-il une maladie chronique ?</label><br />
+                    <label htmlFor="has_chronic_cisease" className={labelStyle}>A-t-il une maladie chronique ?</label><br />
                     <select
-                        id="hasChronicDisease"
-                        name="hasChronicDisease"
-                        value={studentData.hasChronicDisease}
+                        id="has_chronic_cisease"
+                        name="has_chronic_cisease"
+                        value={studentData.has_chronic_cisease}
                         onChange={handleChange}
                         required
                         className={inputStyle}
@@ -134,11 +136,11 @@ export default function CreateUser() {
                     </select>
                 </div>
                 <div>
-                    <label htmlFor="hasDisability" className={labelStyle}>A-t-il un handicap ?</label><br />
+                    <label htmlFor="has_disability" className={labelStyle}>A-t-il un handicap ?</label><br />
                     <select
-                        id="hasDisability"
-                        name="hasDisability"
-                        value={studentData.hasDisability}
+                        id="has_disability"
+                        name="has_disability"
+                        value={studentData.has_disability}
                         onChange={handleChange}
                         required
                         className={inputStyle}

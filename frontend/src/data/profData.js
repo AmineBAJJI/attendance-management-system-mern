@@ -1,7 +1,7 @@
 
 export  const profData = [
-    { id: "6574c43647b7537a76462821", name: "Badir Hassan" },
-    { id: "65904f8683abea7330fca862", name: "BADIR Hassan" },
+    { id: "6574c43647b7537a76462821", name: "BADIR Hassan" },
+
     { id: "65904f8683abea7330fca864", name: "EL HADDAD Mohammed" },
     { id: "65904f8683abea7330fca866", name: "Chraibi Lotfi" },
     { id: "65904f8683abea7330fca868", name: "EL MAMOUNI Anass" },

@@ -11,7 +11,7 @@ import api from '../api/students';
 
 
 export default function Users() {
-
+    const [sessions, setSessions] = useState([]);
     const [data, setData] = useState([]);
     const [filterInfo, setFilterInfo] = useState({
         module: '',
@@ -43,6 +43,7 @@ export default function Users() {
                 const endpoint = `/students/class/${filterInfo.filiere}`;
 
                 const res = await api.get(endpoint);
+                
                 setData(res.data)
                 console.log(res.data);
 
@@ -50,34 +51,24 @@ export default function Users() {
                 console.error('Error fetching data:', error);
             }
         };
-
+        const sessionData = async () => {
+            try {
+                const response = await api.get(`/sessions/date/${filterInfo.date}`)
+                setSessions(response.data);
+                console.log('this the response',response.data);
+            } catch (error) {
+                console.error(error);
+            }
+        }
 
         if (areFiltersComplete()) {
             studentsData();
+            sessionData();
         }
     }, [filterInfo]);
+    
 
-    const columns = [
-        { field: '_id', headerName: 'APOGEE', width: 150 },
-        { field: 'apogee', headerName: 'APOGEE', width: 150 },
-        { field: 'last_name', headerName: 'Nom', width: 200 },
-        { field: 'first_name', headerName: 'Prénom', width: 200 },
-        { field: 'class', headerName: 'Groupe', width: 100 },
-        { field: 'status1', headerName: 'Seance 1', width: 100 },
-        { field: 'status2', headerName: 'Seance 2', width: 100 },
-        {
-            field: 'action',
-            headerName: 'Action',
-            width: 120,
-            renderCell: (params) => (
-                <Link to={`/user/${params.row._id}`}>
-                    <button className="bg-green-500 hover:bg-green-600 rounded-md px-2 py-1 text-white font-semibold">
-                        Afficher
-                    </button>
-                </Link>
-            ),
-        },
-    ];
+   
 
     return (
 
@@ -144,7 +135,7 @@ export default function Users() {
                 </div>
             </div>
             {console.log(filterInfo)}
-            {areFiltersComplete() ?
+            {data.length!=0 ?
                 <div>
                     <div className=' w-full  flex items-center justify-center mx-auto mt-12 '>
                         <div className="overflow-x-auto">
@@ -157,13 +148,13 @@ export default function Users() {
                                         <th>NOM</th>
                                         <th>PRENOM</th>
                                         <th>GROUPE</th>
-                                        <th>SEANCE 1</th>
-                                        <th>SEANCE 2</th>
+                                        {sessions.map(session=>(
+                                            <th key={session._id}>{session.start_time} - {session.end_time}</th>
+                                        ))}
                                         <th>ACTION</th>
                                     </tr>
                                 </thead>
                                 <tbody>
-
                                     {data.map((row, index) => (
                                         <tr key={row._id}>
                                             <th>{index + 1}</th>

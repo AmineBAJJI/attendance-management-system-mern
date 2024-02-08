@@ -4,7 +4,7 @@ const jwt = require("jsonwebtoken");
 
 module.exports.getSessionsByDate = async (req, res) => {
   const { date } = req.params;
-
+ 
   try {
     const token = req.cookies.jwt;
     const decodedToken = jwt.verify(token, process.env.JWT_SECRET);
@@ -37,7 +37,7 @@ module.exports.getSessionsByDate = async (req, res) => {
       });
     }
 
-    res.json(sessions);
+   res.json(sessions);
   } catch (error) {
     console.error("Error:", error);
 

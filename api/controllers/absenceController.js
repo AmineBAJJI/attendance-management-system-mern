@@ -3,7 +3,7 @@ const mongoose = require("mongoose");
 const Absence = require("../models/absenceModel");
 const Student = require("../models/studentModel");
 
-// Controller function to get all absences
+
 async function getAllAbsences(req, res) {
   try {
     const absences = await Absence.find();
@@ -19,7 +19,7 @@ async function getAllAbsences(req, res) {
   }
 }
 
-// Controller function to get a specific absence by ID
+
 async function getAbsenceById(req, res) {
   const absenceId = req.params.absenceId;
 
