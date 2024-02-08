@@ -2,16 +2,21 @@ import React, { useState } from 'react';
 import axios from 'axios';
 import api from '../api/students';
 import { toast } from 'react-toastify'
+import {profData} from '../data/profData';
+import { elementData } from '../data/coursesData';
+import { modulesData } from '../data/coursesData';
 
 
 
 export default function CreateSession() {
+
   const labelStyle = 'text-gray-400 font-semibold mt-2';
   const inputStyle = 'mt-1 p-2  border-2 rounded-md w-[70%]';
 
   const [sessionData, setSessionData] = useState({
     professor_id: '',
-    subject: '', // Changed from 'module' to 'subject'
+    module: '', 
+    element: '',// Changed from 'module' to 'subject'
     class: 'GINF1', // Defaulting to 'GINF1'
     room: '',
     date: '',
@@ -56,28 +61,55 @@ export default function CreateSession() {
       <h1 className='text-3xl font-bold'>Ajouter une séance</h1>
       <form onSubmit={handleSubmit} className='grid grid-cols-2 gap-2 mt-5'>
         <div>
-          <label htmlFor="professor_id" className={labelStyle}>Professeur ID</label><br />
-          <input
-            type="text"
+          <label htmlFor="professor_id" className={labelStyle}>Professeur </label><br />
+          <select
+            id="professor_id"
+            name="professor_id"
             value={sessionData.professor_id}
             onChange={handleChange}
-            placeholder='Professeur id'
-            className={inputStyle}
-            name="professor_id" // Corrected name attribute
-            id="profId"
-          />
+            className={inputStyle} // Apply the same style as other inputs
+          >
+            <option value="">Select Professor</option> {/* Optional default option */}
+            {profData.map((prof) => (
+              <option key={prof.id} value={prof.id}>
+                {prof.name}
+              </option>
+            ))}
+          </select>
         </div>
         <div>
-          <label htmlFor="subject" className={labelStyle}>Matière</label><br />
-          <input
-            type="text"
-            value={sessionData.subject} // Changed 'module' to 'subject'
+          <label htmlFor="module" className={labelStyle}>Module</label><br />
+          <select
+            id="module"
+            name="module"
+            value={sessionData.module}
             onChange={handleChange}
-            id='subject' // Changed 'module' to 'subject'
-            name='subject' // Changed 'module' to 'subject'
-            placeholder='Matière' // Changed 'Module' to 'Matière'
             className={inputStyle}
-          />
+          >
+            <option value="">Select Module</option>
+            {modulesData.map((module) => (
+              <option key={module.id} value={module.id}>
+                {module.module}
+              </option>
+            ))}
+          </select>
+        </div>
+        <div>
+          <label htmlFor="element" className={labelStyle}>Element</label><br />
+          <select
+            id="element"
+            name="element"
+            value={sessionData.element}
+            onChange={handleChange}
+            className={inputStyle}
+          >
+            <option value="">Select Element</option>
+            {elementData.map((element, index) => (
+              <option key={index} value={element}>
+                {element}
+              </option>
+            ))}
+          </select>
         </div>
         <div>
           <label htmlFor="class" className={labelStyle}>Filière</label><br />
@@ -91,6 +123,7 @@ export default function CreateSession() {
           >
             <option value="GINF1">GINF1</option>
             <option value="GINF2">GINF2</option>
+            <option value="GINF2">GINF3</option>
           </select>
         </div>
         <div>
@@ -143,7 +176,6 @@ export default function CreateSession() {
             required
           />
         </div>
-        <div></div>
         <button type="submit" className='bg-blue-700 hover:bg-blue-800 w-[200px] text-white font-semibold mt-4 p-1 text-center rounded-md'>
           Ajouter
         </button>

@@ -1,15 +1,21 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import { DataGrid } from '@mui/x-data-grid';
 import { userRows } from '../data/data';
 import DeleteOutlineIcon from '@mui/icons-material/DeleteOutline';
 import { Link } from 'react-router-dom';
+import { modulesData } from '../data/coursesData';
+import { elementData } from '../data/coursesData';
+
+
+import api from '../api/students';
 
 
 export default function Users() {
-    const [data, setData] = useState(userRows);
+
+    const [data, setData] = useState([]);
     const [filterInfo, setFilterInfo] = useState({
         module: '',
-        matiere: '',
+        element: '',
         filiere: '',
         date: ''
     });
@@ -26,70 +32,52 @@ export default function Users() {
         }));
     };
 
-   
+
     const handleValidate = () => {
         window.location.reload(); // Reload the page
     }
+    useEffect(() => {
+        const studentsData = async () => {
+            try {
+
+                const endpoint = `/students/class/${filterInfo.filiere}`;
+
+                const res = await api.get(endpoint);
+                setData(res.data)
+                console.log(res.data);
+
+            } catch (error) {
+                console.error('Error fetching data:', error);
+            }
+        };
+
+
+        if (areFiltersComplete()) {
+            studentsData();
+        }
+    }, [filterInfo]);
+
     const columns = [
-        { field: "id", headerName: "ID", width: 100 },
+        { field: '_id', headerName: 'APOGEE', width: 150 },
+        { field: 'apogee', headerName: 'APOGEE', width: 150 },
+        { field: 'last_name', headerName: 'Nom', width: 200 },
+        { field: 'first_name', headerName: 'Prénom', width: 200 },
+        { field: 'class', headerName: 'Groupe', width: 100 },
+        { field: 'status1', headerName: 'Seance 1', width: 100 },
+        { field: 'status2', headerName: 'Seance 2', width: 100 },
         {
-            field: "user",
-            headerName: "Nom et Prénom",
-            width: 200,
-            renderCell: (params) => {
-                return (
-                    <div className='flex items-center gap-5'>
-                        <div className="avatar h-[35px] w-[35px]">
-                            <div className="w-24 rounded-full">
-                                <img src="https://daisyui.com/images/stock/photo-1534528741775-53994a69daeb.jpg" />
-                            </div>
-                        </div>
-                        <div> {params.row.username}</div>
-                    </div>
-
-                );
-            },
-        },
-        { field: "email", headerName: "Groupe", width: 100 },
-        {
-            field: "status 1",
-            headerName: "Seance 1",
-            width: 100,
-            renderCell: (params) => {
-                return (
-                    <input type="checkbox" className="checkbox checkbox-accent border-gray-400 [--chkfg:white]" />
-                );
-            },
-        },
-        {
-            field: "status 2",
-            headerName: "Seance 2",
-            width: 100,
-            renderCell: (params) => {
-                return (
-                    <input type="checkbox" className="checkbox checkbox-accent border-gray-400 [--chkfg:white]" />
-                );
-            },
-        },
-
-
-        {
-            field: "action",
-            headerName: "Action",
-            width: 90,
-            renderCell: (params) => {
-                return (
-                    <>
-                        <Link to={"/user/" + params.row.id}>
-                            <button className='bg-green-500 hover:bg-green-600 rounded-md px-2 py-1 mr-2 text-white font-semibold'>Afficher</button>
-                        </Link>
-
-                    </>
-                );
-            },
+            field: 'action',
+            headerName: 'Action',
+            width: 120,
+            renderCell: (params) => (
+                <Link to={`/user/${params.row._id}`}>
+                    <button className="bg-green-500 hover:bg-green-600 rounded-md px-2 py-1 text-white font-semibold">
+                        Afficher
+                    </button>
+                </Link>
+            ),
         },
     ];
-
 
     return (
 
@@ -100,28 +88,35 @@ export default function Users() {
 
                     <div>
                         <select
+                            id="module"
                             name="module"
                             value={filterInfo.module}
                             onChange={handleFilterChange}
-                            className="select select-ghost w-full max-w-xs border-2 border-gray-300"
+                            className='select select-ghost w-full max-w-xs border-2 border-gray-300'
                         >
-                            <option disabled value="">Veuillez choisir un module</option>
-                            <option>Java</option>
-                            <option>Oracle</option>
-                            <option>Optimisation</option>
+                            <option value="">Select Module</option>
+                            {modulesData.map((module) => (
+                                <option key={module.id} value={module.id}>
+                                    {module.module}
+                                </option>
+                            ))}
                         </select>
                     </div>
                     <div>
+
                         <select
-                            name="matiere"
-                            value={filterInfo.matiere}
+                            id="element"
+                            name="element"
+                            value={filterInfo.element}
                             onChange={handleFilterChange}
-                            className="select select-ghost w-full max-w-xs border-2 border-gray-300"
+                            className='select select-ghost w-full max-w-xs border-2 border-gray-300'
                         >
-                            <option disabled value="">Veuillez choisir une matière</option>
-                            <option>Java</option>
-                            <option>Oracle</option>
-                            <option>Optimisation</option>
+                            <option value="">Select Element</option>
+                            {elementData.map((element, index) => (
+                                <option key={index} value={element}>
+                                    {element}
+                                </option>
+                            ))}
                         </select>
                     </div>
                     <div>
@@ -132,8 +127,8 @@ export default function Users() {
                             className="select select-ghost w-full max-w-xs border-2 border-gray-300"
                         >
                             <option disabled value="">Veuillez choisir une filière</option>
-                            <option>Ginf1</option>
-                            <option>Ginf2</option>
+                            <option>GINF1</option>
+                            <option>GINF2</option>
                             <option>Ginf3</option>
                         </select>
                     </div>
@@ -151,24 +146,47 @@ export default function Users() {
             {console.log(filterInfo)}
             {areFiltersComplete() ?
                 <div>
-                    <div className=' w-[66%]  flex items-center justify-center mx-auto mt-12 '>
-                        <DataGrid
+                    <div className=' w-full  flex items-center justify-center mx-auto mt-12 '>
+                        <div className="overflow-x-auto">
+                            <table className="table w-full">
+                                {/* head */}
+                                <thead>
+                                    <tr>
+                                        <th></th>
+                                        <th>APOGEE</th>
+                                        <th>NOM</th>
+                                        <th>PRENOM</th>
+                                        <th>GROUPE</th>
+                                        <th>SEANCE 1</th>
+                                        <th>SEANCE 2</th>
+                                        <th>ACTION</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
 
-                            className='flex justify-center'
-                            rows={data}
-                            columns={columns}
-                            initialState={{
-                                pagination: {
-                                    paginationModel: { page: 0, pageSize: 5 },
-                                },
-                            }}
-                            pageSizeOptions={[5, 10]}
-
-                        />
+                                    {data.map((row, index) => (
+                                        <tr key={row._id}>
+                                            <th>{index + 1}</th>
+                                            <th>{row.apogee}</th>
+                                            <td>{row.last_name}</td>
+                                            <td>{row.first_name}</td>
+                                            <td>{row.class}</td>
+                                            <td><input type="checkbox" className="checkbox checkbox-accent [--chkfg:white]" /></td>
+                                            <td><input type="checkbox" className="checkbox checkbox-accent [--chkfg:white]" /></td>
+                                            <td>
+                                                <Link to={"/user/" + row._id}>
+                                                    <button className='bg-green-500 hover:bg-green-600 rounded-md px-2 py-1 mr-2 text-white font-semibold'>Afficher</button>
+                                                </Link>
+                                            </td>
+                                        </tr>
+                                    ))}
+                                </tbody>
+                            </table>
+                        </div>
 
                     </div>
                     <button
-                        className='bg-green-500 hover:bg-green-600 rounded-md px-2 py-1 mr-2 text-white font-semibold ml-[190px] mt-6 w-1/4'
+                        className='bg-green-500 hover:bg-green-600 rounded-md px-2 py-1 mr-2 text-white font-semibold ml-[190px] mt-6 w-1/4 mb-10'
                         onClick={handleValidate}
                     >Valider</button>
                 </div>
