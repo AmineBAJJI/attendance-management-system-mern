@@ -15,7 +15,7 @@ module.exports.getSessionsByDate = async (req, res) => {
       return res.status(403).json({
         message: "Vous n'avez pas les droits nécessaires.",
       });
-    }
+    } 
 
     const professor = await Professor.findOne({ user_id: userId });
 
@@ -40,11 +40,11 @@ module.exports.getSessionsByDate = async (req, res) => {
   } catch (error) {
     console.error("Error:", error);
 
-    if (error.name === "TokenExpiredError") {
+   if (error.name === "TokenExpiredError") {
       return res.status(401).json({ message: "Token expired" });
     }
 
-    res.status(401).json({ message: "Token invalide" });
+   res.status(401).json({ message: "Token invalide" });
   }
 };
 

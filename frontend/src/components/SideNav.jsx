@@ -9,12 +9,13 @@ import BarChartIcon from '@mui/icons-material/BarChart';
 import PersonAddIcon from '@mui/icons-material/PersonAdd';
 import CalendarMonthIcon from '@mui/icons-material/CalendarMonth';
 import PostAddIcon from '@mui/icons-material/PostAdd';
-import { useDispatch } from 'react-redux';
+import { useDispatch ,useSelector} from 'react-redux';
 
 
 const liStyle = 'mb-1 flex items-center hover:bg-gray-300 rounded-md px-2 py-2 mt-2 cursor-pointer';
 
 export default function SideNav() {
+  const userInfo = useSelector(state=>state.auth).userInfo.user;
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const [logoutApiCall]= useLogoutMutation();
@@ -40,15 +41,20 @@ export default function SideNav() {
             <HomeIcon className='text-gray-400 mr-2 !important' />
             <p >Accueil</p>
           </Link>
+          {userInfo.email !=='chaimae@gmail.com' && <div>
           <Link to='/users' className={liStyle}>
             <PersonIcon className='text-gray-400 mr-2 !important' />
             <p >Étudiants</p>
           </Link>
+          {userInfo.email =='hassan@gmail.com' &&
           <Link to='/usersfiled' className={liStyle}>
-            <BarChartIcon className='text-gray-400 mr-2 !important' />
-            <p >Suivre l'absence </p>
-          </Link>
-          <Link to='/jusifieabs' className={liStyle}>
+          <BarChartIcon className='text-gray-400 mr-2 !important' />
+          <p >Suivre l'absence </p>
+        </Link>
+        }
+          </div> }
+          { userInfo.email =='chaimae@gmail.com' && <div>
+            <Link to='/jusifieabs' className={liStyle}>
             < PostAddIcon className='text-gray-400 mr-2 !important' />
             <p > Justifier l'absence </p>
           </Link>
@@ -60,6 +66,9 @@ export default function SideNav() {
             <CalendarMonthIcon className='text-gray-400 mr-2 !important' />
             <p > Ajouter une session </p>
           </Link>
+        </div>}
+          
+          
           <li onClick={clickHandler} className={liStyle}>
             <FeedbackIcon className='text-gray-400 mr-2 !important' />
             <div >Se déconnecter</div>

@@ -95,6 +95,7 @@ function StudentAbs() {
                                         <th></th>
                                         <th>Date</th>
                                         <th>Heure de début</th>
+                                        <th>Heure de fin</th>
                                         <th>Matière</th>
                                         
                                         <th>ACTION</th>
@@ -106,6 +107,7 @@ function StudentAbs() {
                                     <td>{index + 1}</td>
                                     <td>{row.session_info.date.split('T')[0]}</td>
                                     <td>{row.session_info.start_time}</td>
+                                    <td>{row.session_info.end_time}</td>
                                     <td>{row.session_info.element}</td>
 
                                     <td>{row.justified ? <p className='text-green-600'>L'absence est justifiée.</p>: 

@@ -20,26 +20,23 @@ export default function Home() {
         <div className='p-8 w-[82%] '>
             {console.log(userInfo)}
             <div>
-                <h1 className='text-3xl font-bold'>Bienvenue, M. Hassan</h1>
+                <h1 className='text-3xl font-bold'>Bienvenue,{userInfo.email.split('@')[0].toUpperCase()}</h1>
             </div>
             <div className='flex item-center mt-6 gap-8'>
                 <div className='w-[100%] rounded-md shadow-xl p-12'>
                     <div className='flex items-center gap-4'>
                         <Avatar>H</Avatar>
                         <div>
-                            <span className='text-lg font-semibold'>M.Hassan</span>
-                            <p className='text-sm font-thin text-gray-500'>Professeur et chef de filiere </p>
+                            <span className='text-lg font-semibold'>{userInfo.email.split('@')[0].toUpperCase()}</span>
+                           
                         </div>
                     </div>
                     <h3 className='mt-4 font-semibold text-gray-400'>les details de l'Enseignant</h3>
-                    <div className='flex items-center mt-4'>
-                        <p className='font-bold'>ID:</p>
-                        <span className='ml-2'>{userInfo._id}</span>
-                    </div>
+                  
                     
                     <div className='flex items-center mt-4'>
                         <p className='font-bold'>Nom et Prénom:</p>
-                        <span className='ml-2'>Hassan </span>
+                        <span className='ml-2'>{userInfo.email.split('@')[0].toUpperCase()} </span>
                     </div>
                     <div className='flex items-center mt-4'>
                         <p className='font-bold'>E-mail:</p>
@@ -48,11 +45,6 @@ export default function Home() {
                     <div className='flex items-center mt-4'>
                         <p className='font-bold'>Votre rôle:</p>
                         <span className='ml-2'>{userInfo.role}</span>
-                    </div>
-                   
-                    <div className='flex items-center mt-4'>
-                        <p className='font-bold'>Les matiers que vous enseignez:</p>
-                        <span className='ml-2'>K14366921</span>
                     </div>
                     <div className='flex items-center mt-4'>
                         <p className='font-bold'>Année scolaire:</p>
