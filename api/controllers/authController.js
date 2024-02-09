@@ -50,44 +50,17 @@ const createToken = (user) => {
 };
 
 module.exports.signup_post = async (req, res) => {
-  const { email, password, role } = req.body;
+  const { email, password } = req.body;
 
   try {
-    const user = await User.create({ email, password, role });
+    const user = await User.create({ email, password });
 
-    if (role === "professor") {
-      console.log(user_id);
-      // If the role is a professor, retrieve additional attributes
-      const professor = await Professor.findOne({
-        user_id: user._id.toString(),
-      });
-      if (professor) {
-        // Include professor-specific attributes in the response
-        res.status(201).json({
-          user: {
-            _id: user._id,
-            email: user.email,
-            role: user.role,
-            is_program_manager: professor.is_program_manager,
-            program: professor.program,
-          },
-        });
-      } else {
-        // Handle case where professor details are not found
-        res.status(404).json({ message: "Professor details not found" });
-      }
-    } else {
-      // For roles other than professor, respond without additional attributes
-      const token = createToken(user);
-      res.cookie("jwt", token, { httpOnly: true, maxAge: maxAge * 1000 });
-      res.status(201).json({
-        user: {
-          _id: user._id,
-          email: user.email,
-          role: user.role,
-        },
-      });
-    }
+    const token = createToken(user);
+
+    res.cookie("jwt", token, { httpOnly: true, maxAge: maxAge * 1000 });
+    res
+      .status(201)
+      .json({ user: { _id: user._id, email: user.email, role: user.role } });
   } catch (err) {
     const errors = handleErrors(err);
     res.status(400).json({ errors });
@@ -98,40 +71,13 @@ module.exports.login_post = async (req, res) => {
   const { email, password } = req.body;
   try {
     const user = await User.login(email, password);
-    console.log(user);
 
-    if (user.role === "professor") {
-      // If the role is a professor, retrieve additional attributes
-      const professor = await Professor.findOne({
-        user_id: user._id.toString(),
-      });
-      if (professor) {
-        // Include professor-specific attributes in the response
-        res.status(200).json({
-          user: {
-            _id: user._id,
-            email: user.email,
-            role: "professeur",
-            is_program_manager: professor.is_program_manager,
-            program: professor.program,
-          },
-        });
-      } else {
-        // Handle case where professor details are not found
-        res.status(404).json({ message: "Professor details not found" });
-      }
-    } else {
-      // For roles other than professor, respond without additional attributes
-      const token = createToken(user);
-      res.cookie("jwt", token, { httpOnly: true, maxAge: maxAge * 1000 });
-      res.status(200).json({
-        user: {
-          _id: user._id,
-          email: user.email,
-          role: user.role,
-        },
-      });
-    }
+    const token = createToken(user);
+
+    res.cookie("jwt", token, { httpOnly: true, maxAge: maxAge * 1000 });
+    res
+      .status(200)
+      .json({ user: { _id: user._id, email: user.email, role: user.role } });
   } catch (err) {
     const errors = handleErrors(err);
     res.status(400).json({ errors });
