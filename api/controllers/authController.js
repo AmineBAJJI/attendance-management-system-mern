@@ -50,10 +50,10 @@ const createToken = (user) => {
 };
 
 module.exports.signup_post = async (req, res) => {
-  const { email, password } = req.body;
+  const { email, password, role } = req.body;
 
   try {
-    const user = await User.create({ email, password });
+    const user = await User.create({ email, password, role });
 
     const token = createToken(user);
 
